@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import RegistrationPage from "./RegistrationPage.jsx";
+import HomePage from "./HomePage.jsx";
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import {
   ArrowRight, ChartNoAxesCombined, Eye, EyeOff, Gamepad2,
@@ -54,7 +55,7 @@ function LoginPage() {
   return (
     <div className="site-shell">
       <header className="site-header">
-        <button className="brand-home" onClick={() => navigate("/login")} aria-label="Champion Arena home">
+        <button className="brand-home" onClick={() => navigate("/")} aria-label="Champion Arena home">
           <img src={LOGO} alt="Champion Arena" className="brand-logo" />
         </button>
         <nav className="header-actions" aria-label="Main navigation">
@@ -255,7 +256,8 @@ function PlaceholderPage({ title, description }) {
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/home" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegistrationPage />} />
       <Route path="/forgot-password" element={<PlaceholderPage title="Reset your password" description="Password recovery will be implemented with the authentication flow." />} />

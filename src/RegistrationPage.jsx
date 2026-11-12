@@ -108,7 +108,7 @@ export default function RegistrationPage() {
   return (
     <div className="site-shell registration-shell">
       <header className="site-header">
-        <button className="brand-home" onClick={() => navigate("/login")} aria-label="Champion Arena home">
+        <button className="brand-home" onClick={() => navigate("/")} aria-label="Champion Arena home">
           <img src="/images/champion-arena-logo.png" alt="Champion Arena" className="brand-logo" />
         </button>
         <nav className="header-actions" aria-label="Main navigation">

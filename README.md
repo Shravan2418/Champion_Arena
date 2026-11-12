@@ -1,27 +1,35 @@
-# Champion Arena – Updated Interactive Login Page
+# Champion Arena – Home Page + Login + Registration
 
-## Included
-- Your newly supplied transparent Champion Arena trophy-and-laurel logo, used in the navbar.
-- The supplied student-learning artwork used as a CSS background layer (not as a flattened screenshot of the page).
-- Real React form controls, role tabs, password visibility, remember-me behavior, validation, loading state and frontend navigation.
-- Updated Poppins / Montserrat typography, bold italic headline, larger feature typography and improved navbar logo sizing.
-- Username input placeholder: **Enter your username**.
+## Tech stack
+- React 19 + Vite
+- React Router
+- Tailwind CSS v4 (Vite plugin)
+- Motion for React
+- GSAP
+- Lucide React
 
-## Run
+## Run locally
 ```bash
 npm install
 npm run dev
 ```
-Open the Vite URL, usually `http://localhost:5173/login`.
 
-## Frontend-only behavior
-The login action is simulated locally. It does not authenticate against a backend or store the password. Google sign-in is an informational placeholder. Register, Forgot Password and dashboard routes are frontend placeholders.
+## Routes
+- `/` and `/home` – Home page
+- `/login` – Existing login page
+- `/register` – Registration page
 
+## Home page interactions
+- Responsive mobile navigation
+- Login and Join the Arena route to existing pages
+- Hero Get Started routes to registration
+- Explore Features scrolls to feature cards
+- Feature and journey cards animate on scroll and hover
+- GSAP hero artwork entrance and subtle decorative spark motion
+- Footer social links open their respective social platforms
 
-## Registration page
-- Route: `/register`
-- Required fields: Full Name, Email Address, Password, Confirm Password
-- Optional fields: College / University, Institution Code, Student ID / Roll Number, Department, Course / Programme, Academic Year
-- Includes password visibility toggles, dropdowns, client-side validation, password confirmation, loading and feedback states.
-- Header active-state styling switches between Login and Register based on the current page.
-- Registration remains frontend-only; no account is sent to a backend.
+## Assets
+The hero artwork and three achievement/feedback illustrations are separate image assets cropped from the supplied design reference. The navbar, page sections, cards, text, buttons, navigation and footer are actual React/CSS elements, not a screenshot of the page.
+
+## Authentication
+Login and registration remain frontend preview flows. No backend authentication or account persistence has been added.
