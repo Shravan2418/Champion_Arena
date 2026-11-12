@@ -1,0 +1,2464 @@
+﻿/* =====================================================
+   CHAMPION ARENA - ADMIN DASHBOARD
+   Reference-matched layout and visual styling
+   ===================================================== */
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  color: #0b2149;
+  background:
+    radial-gradient(ellipse at 82% 36%, rgba(173, 222, 255, .6), transparent 43%),
+    linear-gradient(135deg, #e7f2ff, #dcecff);
+  font-family: Inter, Arial, sans-serif;
+}
+
+/* =====================================================
+   SIDEBAR
+   ===================================================== */
+
+.admin-sidebar-wrap {
+  width: 260px;
+  min-width: 260px;
+  flex: 0 0 260px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  z-index: 25;
+}
+
+.admin-sidebar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 16px 12px;
+  overflow-y: auto;
+  color: white;
+  background:
+    radial-gradient(ellipse at 35% 85%, rgba(0, 166, 255, .17), transparent 45%),
+    linear-gradient(180deg, #061a50 0%, #082c70 70%, #07518e 100%);
+  scrollbar-width: none;
+}
+
+.admin-sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.admin-brand {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px;
+}
+
+.admin-brand-icon {
+  width: 55px;
+  height: 55px;
+  color: #18baff;
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 8px rgba(0, 177, 255, .35));
+  flex-shrink: 0;
+}
+
+.admin-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.04;
+}
+
+.admin-brand-text strong {
+  color: #fff;
+  font-size: 23px;
+  font-weight: 850;
+  letter-spacing: -.7px;
+}
+
+.admin-brand-text span {
+  color: #a5ff28;
+  font-size: 23px;
+  font-weight: 850;
+  letter-spacing: -.6px;
+}
+
+.admin-brand-text small {
+  margin-top: 5px;
+  color: #c8e5ff;
+  font-size: 8px;
+  letter-spacing: 1.6px;
+  font-weight: 800;
+}
+
+.admin-sidebar-line {
+  height: 1px;
+  flex-shrink: 0;
+  margin: 9px 3px 16px;
+  background: rgba(198, 222, 255, .27);
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.admin-nav-item {
+  width: 100%;
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 13px;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: #f2f6ff;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 650;
+  transition: background .2s, transform .2s;
+}
+
+.admin-nav-item:hover {
+  background: rgba(255,255,255,.1);
+  transform: translateX(2px);
+}
+
+.admin-nav-item.active {
+  color: #061d4e;
+  background: linear-gradient(105deg, #baff3c, #71ef00);
+  box-shadow: 0 4px 14px rgba(104, 245, 0, .2);
+}
+
+.admin-nav-item.active svg {
+  stroke-width: 2.6;
+}
+
+.admin-sidebar-bottom {
+  margin-top: auto;
+  padding-top: 13px;
+  border-top: 1px solid rgba(198, 222, 255, .27);
+  flex-shrink: 0;
+}
+
+.admin-logout {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 10px 13px;
+  color: #ff625f;
+  background: transparent;
+  border: 0;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* =====================================================
+   TOP HEADER
+   ===================================================== */
+
+.admin-main {
+  flex: 1;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.admin-topbar {
+  height: 82px;
+  min-height: 82px;
+  display: flex;
+  align-items: center;
+  gap: 19px;
+  padding: 0 25px;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  background:
+    radial-gradient(ellipse at 46% 0%, rgba(0, 116, 255, .6), transparent 42%),
+    linear-gradient(100deg, #061a50, #063d88);
+  border-bottom: 2px solid #05b7fa;
+}
+
+.admin-topbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .22;
+  background: repeating-conic-gradient(
+    from -12deg at 65% -90%,
+    transparent 0deg 9deg,
+    rgba(35, 181, 255, .4) 10deg 11deg,
+    transparent 12deg 19deg
+  );
+}
+
+.admin-menu-toggle {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  color: white;
+  background: transparent;
+}
+
+.admin-topbar-spacer {
+  flex: 1;
+}
+
+.admin-notification {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 37px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  color: white;
+}
+
+.admin-notification span {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 9px;
+  height: 9px;
+  border: 1px solid white;
+  border-radius: 50%;
+  background: #ff444e;
+}
+
+.admin-profile-divider {
+  width: 1px;
+  height: 34px;
+  background: rgba(255,255,255,.28);
+}
+
+.admin-profile {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: white;
+  border: 0;
+  background: transparent;
+  font-size: 13px;
+}
+
+.admin-avatar {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #a5f52a;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #fff, #b7e2ff);
+  color: #083e87;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+/* =====================================================
+   MAIN CONTENT
+   ===================================================== */
+
+.admin-content {
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0 19px 19px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* =====================================================
+   WELCOME BANNER
+   ===================================================== */
+
+.admin-welcome-banner {
+  position: relative;
+  min-height: 132px;
+  height: 132px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 13px 25px;
+  margin-top: 0;
+  border: 1px solid #52bdff;
+  border-radius: 20px;
+  color: white;
+  background:
+    radial-gradient(ellipse at 66% 0%, rgba(27, 139, 255, .7), transparent 43%),
+    linear-gradient(105deg, #06266a, #0757b4 58%, #068fc5);
+  box-shadow: 0 6px 17px rgba(0, 73, 154, .17);
+}
+
+.admin-banner-light {
+  position: absolute;
+  top: -70px;
+  right: 18%;
+  width: 260px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(0, 160, 255, .35);
+  filter: blur(55px);
+}
+
+.admin-banner-trophy {
+  position: relative;
+  z-index: 2;
+  width: 165px;
+  min-width: 165px;
+  height: 105px;
+  display: grid;
+  place-items: center;
+  color: #ffd044;
+  filter: drop-shadow(0 0 13px rgba(255, 196, 42, .45));
+}
+
+.admin-banner-trophy > svg {
+  stroke-width: 1.8;
+}
+
+.admin-banner-laurel {
+  position: absolute;
+  inset: -4px;
+  display: grid;
+  place-items: center;
+  color: #acdf38;
+  font-size: 115px;
+  opacity: .75;
+  transform: scaleX(1.25);
+  pointer-events: none;
+}
+
+.admin-banner-copy {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-banner-copy h2 {
+  margin: 0 0 7px;
+  color: white;
+  font-size: clamp(29px, 2.7vw, 42px);
+  font-weight: 850;
+  font-style: italic;
+  letter-spacing: -1.1px;
+  white-space: nowrap;
+}
+
+.admin-banner-copy h2 strong {
+  color: #aaff27;
+}
+
+.admin-banner-copy p {
+  margin: 0;
+  color: #f0f7ff;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.admin-banner-art {
+  position: relative;
+  z-index: 2;
+  width: 215px;
+  min-width: 165px;
+  height: 115px;
+  display: grid;
+  place-items: center;
+  color: #08c4ff;
+}
+
+.admin-cap {
+  fill: #073b8e;
+  stroke: #03b5ff;
+  stroke-width: 1.8;
+  filter: drop-shadow(0 7px 5px rgba(0,0,0,.25));
+}
+
+.admin-banner-stars {
+  position: absolute;
+  top: 0;
+  left: 4px;
+  color: #b8ff1b;
+}
+
+.admin-banner-book {
+  position: absolute;
+  right: 2px;
+  bottom: 4px;
+  color: #d2faff;
+}
+
+.admin-banner-wave {
+  position: absolute;
+  left: -2%;
+  bottom: -37px;
+  width: 105%;
+  height: 57px;
+  opacity: .98;
+  background: linear-gradient(90deg, #08b8ee, #8cfa12, #00cbb7);
+  clip-path: polygon(0 53%, 18% 76%, 34% 13%, 53% 67%, 70% 19%, 88% 70%, 100% 10%, 100% 100%, 0 100%);
+}
+
+/* =====================================================
+   STATISTICS
+   ===================================================== */
+
+.admin-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.admin-stat-card {
+  min-width: 0;
+  min-height: 94px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 15px;
+  border: 1px solid #d3e3fa;
+  border-radius: 17px;
+  background: linear-gradient(145deg, #fff, #f8fbff);
+  box-shadow: 0 5px 13px rgba(40, 84, 148, .10);
+  transition: transform .2s, box-shadow .2s;
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(40, 84, 148, .14);
+}
+
+.admin-stat-icon {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+}
+
+.admin-stat-icon.blue { background: #e1f1ff; color: #1685ea; }
+.admin-stat-icon.purple { background: #f0e6ff; color: #8344e5; }
+.admin-stat-icon.green { background: #e2f9e7; color: #13b44b; }
+.admin-stat-icon.gold { background: #fff0cd; color: #e2a300; }
+
+.admin-stat-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-stat-info > span {
+  color: #435b7c;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-stat-info > strong {
+  margin-top: 3px;
+  color: #0b214a;
+  font-size: 27px;
+  line-height: 1.05;
+  font-weight: 900;
+}
+
+.admin-stat-info > small {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 5px;
+  color: #14a34a;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* =====================================================
+   MAIN TWO-COLUMN ROW
+   ===================================================== */
+
+.admin-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.22fr) minmax(0, .94fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.admin-card {
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid #d0e1f8;
+  border-radius: 19px;
+  background: linear-gradient(145deg, #fff, #f9fbff);
+  box-shadow: 0 5px 15px rgba(35, 78, 145, .09);
+}
+
+.admin-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.admin-card-heading h3 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  color: #10244b;
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.admin-card-heading h3 svg {
+  width: 27px;
+  height: 27px;
+  flex-shrink: 0;
+  color: #0782e6;
+}
+
+.admin-card-heading p {
+  margin: 4px 0 0 35px;
+  color: #72819a;
+  font-size: 10px;
+}
+
+.admin-card-heading select {
+  max-width: 120px;
+  padding: 8px 10px;
+  border: 1px solid #d4e2f4;
+  border-radius: 9px;
+  background: #f8fbff;
+  color: #263e65;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* =====================================================
+   EXAM OVERVIEW
+   ===================================================== */
+
+.admin-overview-card {
+  min-height: 282px;
+}
+
+.admin-overview-content {
+  display: grid;
+  grid-template-columns: minmax(155px, .47fr) minmax(0, 1fr);
+  gap: 15px;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.admin-donut-wrap {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  border-right: 1px solid #dce7f5;
+  padding-right: 13px;
+}
+
+.admin-performance-donut {
+  width: min(100%, 190px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: conic-gradient(
+    #17bd49 0% 75%,
+    #e4ebf5 75% 100%
+  );
+  box-shadow: 0 5px 16px rgba(24, 129, 75, .1);
+}
+
+.admin-donut-center {
+  width: 77%;
+  height: 77%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: white;
+}
+
+.admin-donut-center strong {
+  color: #10264e;
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.admin-donut-center span {
+  margin-top: 3px;
+  color: #435574;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.admin-weekly-chart {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.admin-chart-labels {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 11px;
+  margin-bottom: 2px;
+  color: #536783;
+  font-size: 9px;
+}
+
+.admin-chart-labels span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-chart-labels i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.chart-blue { background: #1387f4; }
+.chart-green { background: #1dbd4c; }
+.chart-purple { background: #9850ea; }
+
+.admin-svg-wrap {
+  width: 100%;
+}
+
+.admin-chart-svg {
+  width: 100%;
+  height: 185px;
+  display: block;
+  overflow: visible;
+}
+
+.admin-chart-gridline {
+  stroke: #e1eaf5;
+  stroke-width: 1;
+}
+
+.admin-chart-axis {
+  fill: #71819a;
+  font-size: 10px;
+}
+
+.admin-exam-bar {
+  fill: #48a0ed;
+  opacity: .87;
+}
+
+.admin-quiz-line,
+.admin-user-line {
+  fill: none;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.admin-quiz-line { stroke: #15bd47; }
+.admin-user-line { stroke: #9849ed; }
+
+.admin-quiz-point,
+.admin-user-point {
+  fill: white;
+  stroke-width: 2.8;
+}
+
+.admin-quiz-point { stroke: #15bd47; }
+.admin-user-point { stroke: #9849ed; }
+
+.admin-chart-badge {
+  fill: #0d307d;
+}
+
+.admin-chart-badge-text {
+  fill: white;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.admin-chart-days {
+  display: flex;
+  justify-content: space-around;
+  padding-left: 20px;
+  color: #536783;
+  font-size: 10px;
+}
+
+/* =====================================================
+   LIVE EXAM LEADERBOARD
+   ===================================================== */
+
+.admin-live-leaderboard {
+  min-width: 0;
+  min-height: 282px;
+  padding: 16px;
+  overflow: hidden;
+  border: 1px solid #1c61ad;
+  border-radius: 19px;
+  color: white;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(0, 137, 255, .32), transparent 43%),
+    linear-gradient(140deg, #061d58, #083b87 78%, #082b65);
+  box-shadow: 0 6px 17px rgba(0, 47, 121, .19);
+}
+
+.admin-live-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 13px;
+}
+
+.admin-live-heading > svg {
+  color: #ffcf39;
+  flex-shrink: 0;
+}
+
+.admin-live-heading h3 {
+  margin: 0;
+  color: white;
+  font-size: 17px;
+  font-weight: 850;
+}
+
+.admin-live-heading h3 span {
+  color: #a9ff27;
+}
+
+.admin-live-heading p {
+  margin: 3px 0 0;
+  color: #c5dfff;
+  font-size: 10px;
+}
+
+.admin-live-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.admin-live-row {
+  min-height: 47px;
+  display: grid;
+  grid-template-columns: 28px 34px minmax(0, 1fr) 39px;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 7px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+}
+
+.admin-live-row.first {
+  border-color: #ffd342;
+  background: linear-gradient(90deg, rgba(255, 193, 20, .22), rgba(255, 193, 20, .07));
+  box-shadow: 0 0 12px rgba(255, 202, 42, .17);
+}
+
+.admin-live-rank {
+  display: grid;
+  place-items: center;
+  color: #e9f3ff;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.admin-medal-rank {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.admin-medal-rank.rank-1 {
+  color: #805500;
+  background: linear-gradient(145deg, #ffe98c, #ffbd22);
+}
+
+.admin-medal-rank.rank-2 {
+  color: #3f5068;
+  background: linear-gradient(145deg, #f0f4fa, #9eafc6);
+}
+
+.admin-medal-rank.rank-3 {
+  color: #78401e;
+  background: linear-gradient(145deg, #ffd5a9, #c57c45);
+}
+
+.admin-live-avatar {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.8);
+  border-radius: 50%;
+  background: linear-gradient(145deg, #fff, #a6d4ff);
+  color: #06478d;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.admin-live-student {
+  min-width: 0;
+}
+
+.admin-live-student strong {
+  display: block;
+  overflow: hidden;
+  color: #fff;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.admin-live-track {
+  height: 6px;
+  margin-top: 4px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: rgba(255,255,255,.19);
+}
+
+.admin-live-track span {
+  height: 100%;
+  display: block;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #00bdf5, #24c8ff);
+}
+
+.admin-live-row.first .admin-live-track span {
+  background: linear-gradient(90deg, #75e800, #aaff32);
+}
+
+.admin-live-row.third .admin-live-track span {
+  background: linear-gradient(90deg, #8138dc, #c15bff);
+}
+
+.admin-live-row > b {
+  color: white;
+  text-align: right;
+  font-size: 13px;
+}
+
+/* =====================================================
+   BOTTOM THREE-COLUMN ROW
+   ===================================================== */
+
+.admin-bottom-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.06fr) minmax(0, 1.03fr);
+  gap: 13px;
+  align-items: stretch;
+}
+
+.admin-subject-card,
+.admin-recent-card {
+  min-height: 207px;
+}
+
+.admin-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: #0758d4;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.admin-subject-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: center;
+  gap: 7px;
+  padding-top: 17px;
+}
+
+.admin-subject-item {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-subject-ring {
+  width: clamp(58px, 5vw, 83px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--subject-color) var(--subject-value),
+    #e7edf6 var(--subject-value)
+  );
+  transform: rotate(-90deg);
+}
+
+.admin-subject-ring > div {
+  width: 78%;
+  height: 78%;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: white;
+  color: #17294c;
+  font-size: 15px;
+  font-weight: 900;
+  transform: rotate(90deg);
+}
+
+.admin-subject-item > strong {
+  color: #17294d;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+/* =====================================================
+   RECENT ACTIVITIES
+   ===================================================== */
+
+.admin-recent-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+}
+
+.admin-recent-item {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e8eef8;
+}
+
+.admin-recent-item:last-child {
+  border-bottom: 0;
+}
+
+.admin-activity-dot {
+  width: 29px;
+  height: 29px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.admin-activity-dot.green { color: #10a84e; background: #e2fae9; }
+.admin-activity-dot.blue { color: #087be2; background: #e2f1ff; }
+.admin-activity-dot.purple { color: #8847df; background: #f0e8ff; }
+.admin-activity-dot.orange { color: #e78a1a; background: #fff0d9; }
+
+.admin-recent-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.admin-recent-copy strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #14274d;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.admin-recent-item > small {
+  flex-shrink: 0;
+  color: #687c99;
+  font-size: 9px;
+}
+
+/* =====================================================
+   QUICK ACTIONS
+   ===================================================== */
+
+.admin-quick-card {
+  min-width: 0;
+  min-height: 207px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px;
+  border: 1px solid #164c94;
+  border-radius: 19px;
+  color: white;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(0, 154, 255, .27), transparent 45%),
+    linear-gradient(140deg, #061d58, #082f76);
+  box-shadow: 0 6px 17px rgba(0, 47, 121, .16);
+}
+
+.admin-quick-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 13px;
+}
+
+.admin-quick-heading > svg {
+  color: #ffcc41;
+}
+
+.admin-quick-heading h3 {
+  margin: 0;
+  color: white;
+  font-size: 17px;
+  font-weight: 850;
+}
+
+.admin-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.admin-quick-action {
+  min-width: 0;
+  min-height: 105px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 4px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 12px;
+  color: white;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.24), 0 4px 10px rgba(0,0,0,.13);
+  transition: transform .2s, filter .2s;
+}
+
+.admin-quick-action:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.08);
+}
+
+.admin-quick-action.green { background: linear-gradient(145deg, #30d94d, #079c43); }
+.admin-quick-action.purple { background: linear-gradient(145deg, #a94af0, #6327ca); }
+.admin-quick-action.orange { background: linear-gradient(145deg, #ffc039, #e88909); }
+.admin-quick-action.blue { background: linear-gradient(145deg, #12b9ee, #086bd5); }
+
+.admin-quick-action span {
+  max-width: 100%;
+  text-align: center;
+  overflow-wrap: anywhere;
+  font-size: 10px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+/* =====================================================
+   TEMPORARY MODULE PREVIEW
+   ===================================================== */
+
+.admin-module-preview {
+  min-height: 500px;
+  margin: 20px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #0d2b5b;
+  background: white;
+  border: 1px solid #d3e4fa;
+  border-radius: 22px;
+  box-shadow: 0 5px 17px rgba(38, 81, 144, .1);
+}
+
+.admin-module-preview > svg {
+  color: #1376d1;
+}
+
+.admin-module-preview h2 {
+  margin: 15px 0 5px;
+  font-size: 29px;
+}
+
+.admin-module-preview p {
+  max-width: 430px;
+  color: #71809a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.admin-module-preview button {
+  margin-top: 15px;
+  padding: 11px 20px;
+  border: 0;
+  border-radius: 10px;
+  color: #09254d;
+  background: linear-gradient(110deg, #baff44, #75ef00);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (min-width: 1600px) {
+  .admin-content {
+    padding: 0 22px 20px;
+    gap: 15px;
+  }
+
+  .admin-welcome-banner {
+    min-height: 140px;
+    height: 140px;
+  }
+
+  .admin-stat-card {
+    min-height: 96px;
+  }
+
+  .admin-chart-svg {
+    height: 195px;
+  }
+
+  .admin-main-grid {
+    gap: 15px;
+  }
+
+  .admin-bottom-grid {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 1250px) {
+  .admin-sidebar-wrap {
+    width: 230px;
+    min-width: 230px;
+    flex-basis: 230px;
+  }
+
+  .admin-content {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+
+  .admin-main-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .admin-bottom-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .admin-quick-card {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 850px) {
+  .admin-sidebar-wrap {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: -280px;
+    z-index: 50;
+    transition: left .25s ease;
+    box-shadow: none;
+  }
+
+  .admin-sidebar-wrap.open {
+    left: 0;
+    box-shadow: 10px 0 35px rgba(0,0,0,.24);
+  }
+
+  .admin-sidebar {
+    width: 265px;
+  }
+
+  .admin-topbar {
+    height: 66px;
+    min-height: 66px;
+    padding: 0 14px;
+  }
+
+  .admin-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-overview-content {
+    grid-template-columns: 150px minmax(0, 1fr);
+  }
+
+  .admin-bottom-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .admin-quick-card {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-content {
+    padding: 10px;
+    gap: 11px;
+  }
+
+  .admin-brand-text strong,
+  .admin-brand-text span {
+    font-size: 21px;
+  }
+
+  .admin-welcome-banner {
+    min-height: 118px;
+    height: auto;
+    padding: 12px;
+    gap: 7px;
+  }
+
+  .admin-banner-trophy {
+    width: 54px;
+    min-width: 54px;
+    height: 80px;
+  }
+
+  .admin-banner-trophy > svg {
+    width: 43px;
+  }
+
+  .admin-banner-laurel {
+    font-size: 47px;
+  }
+
+  .admin-banner-copy h2 {
+    font-size: 22px;
+    white-space: normal;
+  }
+
+  .admin-banner-copy p {
+    font-size: 10px;
+    line-height: 1.4;
+  }
+
+  .admin-banner-art {
+    width: 49px;
+    min-width: 49px;
+  }
+
+  .admin-cap {
+    width: 48px;
+  }
+
+  .admin-banner-book,
+  .admin-banner-stars {
+    display: none;
+  }
+
+  .admin-stat-grid {
+    gap: 8px;
+  }
+
+  .admin-stat-card {
+    min-height: 76px;
+    padding: 8px;
+    gap: 7px;
+  }
+
+  .admin-stat-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .admin-stat-icon svg {
+    width: 22px;
+  }
+
+  .admin-stat-info > span {
+    font-size: 9px;
+  }
+
+  .admin-stat-info > strong {
+    font-size: 20px;
+  }
+
+  .admin-stat-info > small {
+    font-size: 8px;
+  }
+
+  .admin-card,
+  .admin-live-leaderboard,
+  .admin-quick-card {
+    padding: 13px;
+  }
+
+  .admin-card-heading h3,
+  .admin-live-heading h3,
+  .admin-quick-heading h3 {
+    font-size: 14px;
+  }
+
+  .admin-overview-content {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-donut-wrap {
+    border-right: 0;
+    border-bottom: 1px solid #e2eaf6;
+    padding: 0 0 14px;
+  }
+
+  .admin-performance-donut {
+    width: 135px;
+  }
+
+  .admin-chart-svg {
+    height: 155px;
+  }
+
+  .admin-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-quick-card {
+    grid-column: auto;
+  }
+
+  .admin-subject-ring {
+    width: 59px;
+  }
+
+  .admin-subject-ring > div {
+    font-size: 12px;
+  }
+
+  .admin-quick-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-quick-action {
+    min-height: 88px;
+  }
+
+  .admin-profile strong,
+  .admin-profile > svg {
+    display: none;
+  }
+}
+
+/* ==============================================
+   ADMIN DASHBOARD - REFERENCE SIZE CORRECTION
+   Optimized for 1600px desktop screens
+   ============================================== */
+
+@media (min-width: 1200px) {
+
+  /* Top navigation */
+  .admin-topbar {
+    height: 65px;
+    min-height: 65px;
+    padding: 0 24px;
+  }
+
+  /* Main content spacing */
+  .admin-content {
+    padding: 0 17px 12px;
+    gap: 10px;
+  }
+
+  /* Welcome banner */
+  .admin-welcome-banner {
+    height: 117px;
+    min-height: 117px;
+    padding: 10px 22px;
+    gap: 17px;
+    border-radius: 17px;
+  }
+
+  .admin-banner-trophy {
+    width: 135px;
+    min-width: 135px;
+    height: 95px;
+    background: radial-gradient(
+      ellipse,
+      rgba(255, 208, 65, .18),
+      transparent 70%
+    );
+  }
+
+  /* Remove the decorative green loop */
+  .admin-banner-laurel {
+    display: none;
+  }
+
+  .admin-banner-trophy > svg {
+    width: 73px;
+    height: 73px;
+    color: #ffd044;
+    filter: drop-shadow(0 5px 7px rgba(255, 187, 24, .35));
+  }
+
+  .admin-banner-copy h2 {
+    font-size: 35px;
+    margin-bottom: 5px;
+  }
+
+  .admin-banner-copy p {
+    font-size: 13px;
+  }
+
+  .admin-banner-art {
+    height: 100px;
+    width: 175px;
+  }
+
+  .admin-cap {
+    width: 78px;
+    height: 78px;
+  }
+
+  /* Statistics cards */
+  .admin-stat-grid {
+    gap: 11px;
+  }
+
+  .admin-stat-card {
+    min-height: 77px;
+    padding: 9px 12px;
+    gap: 10px;
+    border-radius: 14px;
+  }
+
+  .admin-stat-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+  }
+
+  .admin-stat-icon svg {
+    width: 27px;
+    height: 27px;
+  }
+
+  .admin-stat-info > span {
+    font-size: 10px;
+  }
+
+  .admin-stat-info > strong {
+    font-size: 23px;
+  }
+
+  .admin-stat-info > small {
+    font-size: 9px;
+    margin-top: 3px;
+  }
+
+  /* Middle row */
+  .admin-main-grid {
+    grid-template-columns: minmax(0, 1.23fr) minmax(0, .94fr);
+    gap: 11px;
+  }
+
+  .admin-overview-card,
+  .admin-live-leaderboard {
+    min-height: 230px;
+    height: 230px;
+    padding: 13px 15px;
+    border-radius: 17px;
+  }
+
+  .admin-card-heading h3 {
+    font-size: 16px;
+  }
+
+  .admin-card-heading p {
+    font-size: 9px;
+  }
+
+  .admin-overview-content {
+    grid-template-columns: minmax(135px, .43fr) minmax(0, 1fr);
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .admin-performance-donut {
+    width: min(100%, 160px);
+  }
+
+  .admin-donut-center strong {
+    font-size: 30px;
+  }
+
+  .admin-chart-labels {
+    font-size: 8px;
+    gap: 8px;
+  }
+
+  .admin-chart-svg {
+    height: 143px;
+  }
+
+  /* Live leaderboard */
+  .admin-live-heading {
+    margin-bottom: 9px;
+    gap: 8px;
+  }
+
+  .admin-live-heading h3 {
+    font-size: 15px;
+  }
+
+  .admin-live-heading p {
+    font-size: 9px;
+  }
+
+  .admin-live-list {
+    gap: 3px;
+  }
+
+  .admin-live-row {
+    min-height: 34px;
+    padding: 3px 6px;
+    grid-template-columns: 24px 30px minmax(0, 1fr) 35px;
+    gap: 7px;
+  }
+
+  .admin-live-avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .admin-live-rank {
+    font-size: 12px;
+  }
+
+  .admin-medal-rank {
+    width: 22px;
+    height: 22px;
+  }
+
+  .admin-live-student strong {
+    font-size: 10px;
+  }
+
+  .admin-live-track {
+    height: 5px;
+    margin-top: 3px;
+  }
+
+  .admin-live-row > b {
+    font-size: 11px;
+  }
+
+  /* Bottom three-column row */
+  .admin-bottom-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 11px;
+  }
+
+  .admin-subject-card,
+  .admin-recent-card,
+  .admin-quick-card {
+    min-height: 180px;
+    height: 180px;
+    padding: 13px;
+    border-radius: 16px;
+  }
+
+  .admin-subject-card .admin-card-heading h3,
+  .admin-recent-card .admin-card-heading h3,
+  .admin-quick-heading h3 {
+    font-size: 14px;
+  }
+
+  .admin-subject-grid {
+    padding-top: 12px;
+    gap: 5px;
+  }
+
+  .admin-subject-ring {
+    width: 65px;
+  }
+
+  .admin-subject-ring > div {
+    font-size: 13px;
+  }
+
+  .admin-subject-item {
+    gap: 7px;
+  }
+
+  .admin-subject-item > strong {
+    font-size: 9px;
+  }
+
+  .admin-recent-item {
+    padding: 6px 0;
+    gap: 7px;
+  }
+
+  .admin-activity-dot {
+    width: 29px;
+    height: 29px;
+  }
+
+  .admin-recent-copy strong {
+    font-size: 9px;
+  }
+
+  .admin-recent-item > small {
+    font-size: 8px;
+  }
+
+  .admin-quick-heading {
+    margin-bottom: 9px;
+  }
+
+  .admin-quick-grid {
+    gap: 6px;
+  }
+
+  .admin-quick-action {
+    min-height: 93px;
+    padding: 6px 3px;
+    gap: 6px;
+    border-radius: 10px;
+  }
+
+  .admin-quick-action svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .admin-quick-action span {
+    font-size: 9px;
+  }
+}
+
+/* Laptop-height adjustment */
+@media (min-width: 1200px) and (max-height: 820px) {
+  .admin-topbar {
+    height: 58px;
+    min-height: 58px;
+  }
+
+  .admin-content {
+    gap: 8px;
+  }
+
+  .admin-welcome-banner {
+    height: 108px;
+    min-height: 108px;
+  }
+
+  .admin-stat-card {
+    min-height: 70px;
+  }
+
+  .admin-overview-card,
+  .admin-live-leaderboard {
+    height: 215px;
+    min-height: 215px;
+  }
+
+  .admin-chart-svg {
+    height: 127px;
+  }
+
+  .admin-subject-card,
+  .admin-recent-card,
+  .admin-quick-card {
+    height: 165px;
+    min-height: 165px;
+  }
+}
+
+
+/* ==========================================
+   ADMIN DASHBOARD - FINAL CONTENT FIT
+   ========================================== */
+
+@media (min-width: 1200px) {
+
+  /* Fit all five leaderboard students */
+  .admin-live-leaderboard {
+    padding: 12px 14px;
+  }
+
+  .admin-live-heading {
+    gap: 7px;
+    margin-bottom: 6px;
+  }
+
+  .admin-live-heading > svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .admin-live-heading h3 {
+    font-size: 14px;
+  }
+
+  .admin-live-heading p {
+    font-size: 8px;
+    margin-top: 2px;
+  }
+
+  .admin-live-list {
+    gap: 2px;
+  }
+
+  .admin-live-row {
+    min-height: 27px;
+    padding: 2px 5px;
+    grid-template-columns: 21px 26px minmax(0, 1fr) 34px;
+    gap: 6px;
+  }
+
+  .admin-live-avatar {
+    width: 25px;
+    height: 25px;
+    font-size: 10px;
+  }
+
+  .admin-live-rank {
+    font-size: 11px;
+  }
+
+  .admin-medal-rank {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .admin-live-student strong {
+    font-size: 9px;
+  }
+
+  .admin-live-track {
+    height: 4px;
+    margin-top: 2px;
+  }
+
+  .admin-live-row > b {
+    font-size: 10px;
+  }
+
+  /* Fit all four recent activities inside the card */
+  .admin-recent-card {
+    overflow: hidden;
+  }
+
+  .admin-recent-list {
+    margin-top: 2px;
+  }
+
+  .admin-recent-item {
+    padding: 3px 0;
+    gap: 6px;
+  }
+
+  .admin-activity-dot {
+    width: 25px;
+    height: 25px;
+  }
+
+  .admin-activity-dot svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .admin-recent-copy strong {
+    font-size: 9px;
+  }
+
+  .admin-recent-item > small {
+    font-size: 8px;
+  }
+}
+
+
+/* Final fix: fit all 4 activity rows */
+@media (min-width: 1200px) {
+
+  .admin-recent-card {
+    overflow: hidden;
+  }
+
+  .admin-recent-list {
+    margin-top: 0;
+  }
+
+  .admin-recent-item {
+    min-height: 25px;
+    padding: 1px 0;
+    gap: 6px;
+  }
+
+  .admin-activity-dot {
+    width: 22px;
+    height: 22px;
+  }
+
+  .admin-activity-dot svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .admin-recent-copy strong {
+    font-size: 9px;
+    line-height: 1.15;
+  }
+
+  .admin-recent-item > small {
+    font-size: 8px;
+  }
+}
+
+
+/* ==========================================
+   ADMIN DASHBOARD - ANALYTICS PANEL POLISH
+   ========================================== */
+
+@media (min-width: 1200px) {
+
+  /* EXAM OVERVIEW */
+
+  .admin-overview-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .admin-overview-card .admin-card-heading {
+    flex-shrink: 0;
+  }
+
+  .admin-overview-content {
+    flex: 1;
+    min-height: 0;
+    grid-template-columns: minmax(125px, .39fr) minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+    margin-top: 5px;
+  }
+
+  .admin-donut-wrap {
+    height: 100%;
+    min-height: 0;
+    display: grid;
+    place-items: center;
+    padding-right: 10px;
+  }
+
+  .admin-performance-donut {
+    width: min(100%, 135px);
+    flex-shrink: 0;
+    aspect-ratio: 1;
+  }
+
+  .admin-donut-center strong {
+    font-size: 29px;
+  }
+
+  .admin-donut-center span {
+    font-size: 10px;
+  }
+
+  .admin-weekly-chart {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .admin-chart-labels {
+    font-size: 8px;
+    gap: 8px;
+    margin-bottom: 0;
+  }
+
+  .admin-chart-svg {
+    height: 112px;
+    min-height: 0;
+  }
+
+  .admin-chart-days {
+    margin-top: 2px;
+    font-size: 9px;
+  }
+
+  /* SUBJECT PERFORMANCE */
+
+  .admin-subject-card {
+    overflow: hidden;
+  }
+
+  .admin-subject-card .admin-card-heading {
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .admin-subject-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    justify-items: center;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 3px 2px;
+  }
+
+  .admin-subject-item {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .admin-subject-ring {
+    width: 65px;
+    max-width: 90%;
+    aspect-ratio: 1;
+    flex-shrink: 0;
+  }
+
+  .admin-subject-ring > div {
+    width: 78%;
+    height: 78%;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .admin-subject-item > strong {
+    min-height: 13px;
+    width: 100%;
+    text-align: center;
+    font-size: 9px;
+    font-weight: 750;
+    white-space: nowrap;
+  }
+
+  /* RECENT ACTIVITIES */
+
+  .admin-recent-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .admin-recent-card .admin-card-heading {
+    flex-shrink: 0;
+    margin-bottom: 8px;
+  }
+
+  .admin-recent-list {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 0;
+  }
+
+  .admin-recent-item {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: 1px solid #e8eff8;
+  }
+
+  .admin-recent-item:last-child {
+    border-bottom: none;
+  }
+
+  .admin-activity-dot {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+
+  .admin-activity-dot svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .admin-recent-copy {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .admin-recent-copy strong {
+    font-size: 9px;
+    line-height: 1.3;
+    font-weight: 750;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .admin-recent-item > small {
+    flex-shrink: 0;
+    font-size: 8px;
+    white-space: nowrap;
+  }
+}
+
+/* Larger desktop screens */
+
+@media (min-width: 1500px) {
+
+  .admin-performance-donut {
+    width: min(100%, 150px);
+  }
+
+  .admin-chart-svg {
+    height: 125px;
+  }
+
+  .admin-subject-ring {
+    width: 70px;
+  }
+
+  .admin-subject-item > strong {
+    font-size: 10px;
+  }
+}
+
+/* Preserve responsive mobile layout */
+
+@media (max-width: 1199px) {
+  .admin-overview-card {
+    height: auto;
+  }
+
+  .admin-subject-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+
+/* ==========================================
+   ADMIN DASHBOARD - FULL HEIGHT BALANCING
+   Optimized for large desktop displays
+   ========================================== */
+
+@media (min-width: 1500px) and (min-height: 800px) {
+
+  .admin-content {
+    gap: 12px;
+    padding-bottom: 14px;
+  }
+
+  /* Welcome banner */
+  .admin-welcome-banner {
+    height: 140px;
+    min-height: 140px;
+  }
+
+  /* Statistics cards */
+  .admin-stat-card {
+    min-height: 95px;
+  }
+
+  /* Exam Overview and Live Leaderboard */
+  .admin-overview-card,
+  .admin-live-leaderboard {
+    height: 310px;
+    min-height: 310px;
+  }
+
+  .admin-overview-content {
+    flex: 1;
+  }
+
+  .admin-performance-donut {
+    width: min(100%, 170px);
+  }
+
+  .admin-chart-svg {
+    height: 175px;
+  }
+
+  /* Bottom panels */
+  .admin-subject-card,
+  .admin-recent-card,
+  .admin-quick-card {
+    height: 235px;
+    min-height: 235px;
+  }
+
+  /* Larger subject indicators */
+  .admin-subject-grid {
+    padding-top: 22px;
+    gap: 9px;
+  }
+
+  .admin-subject-ring {
+    width: 75px;
+  }
+
+  .admin-subject-ring > div {
+    font-size: 15px;
+  }
+
+  .admin-subject-item > strong {
+    font-size: 10px;
+  }
+
+  /* Better activity row distribution */
+  .admin-recent-list {
+    justify-content: space-around;
+  }
+
+  .admin-recent-item {
+    padding: 7px 0;
+  }
+
+  .admin-activity-dot {
+    width: 31px;
+    height: 31px;
+  }
+
+  .admin-recent-copy strong {
+    font-size: 10px;
+  }
+
+  .admin-recent-item > small {
+    font-size: 9px;
+  }
+
+  /* More balanced Quick Actions */
+  .admin-quick-action {
+    min-height: 120px;
+  }
+
+}
+
+/* Shorter laptop displays retain compact sizing */
+@media (min-width: 1200px) and (max-height: 799px) {
+  .admin-content {
+    gap: 9px;
+  }
+}
+
+
+/* ==========================================
+   ADMIN DASHBOARD - AUTOMATIC HEIGHT BALANCE
+   ========================================== */
+
+@media (min-width: 1200px) and (min-height: 700px) {
+
+  .admin-content {
+    min-height: calc(100vh - 65px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Let the last row consume remaining space */
+  .admin-bottom-grid {
+    flex: 1 1 auto;
+    min-height: 190px;
+    align-items: stretch;
+  }
+
+  /* Remove previous fixed heights */
+  .admin-subject-card,
+  .admin-recent-card,
+  .admin-quick-card {
+    height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+  }
+
+  /* Distribute subject indicators evenly */
+  .admin-subject-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin-subject-grid {
+    flex: 1;
+    align-content: center;
+  }
+
+  /* Spread activity rows across the available height */
+  .admin-recent-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .admin-recent-list {
+    flex: 1;
+    justify-content: space-evenly;
+  }
+
+  /* Center quick actions within the expanded card */
+  .admin-quick-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+
+/* ==========================================
+   SHARED BRANDING + ADMIN FINAL POLISH
+   ========================================== */
+
+/* Keep the exact same Champion Arena logo */
+.admin-sidebar .brand-logo {
+  height: 76px;
+  min-height: 76px;
+  padding-left: 8px;
+}
+
+.admin-panel-label {
+  width: fit-content;
+  margin: 7px auto 12px;
+  padding: 7px 17px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f4f8ff;
+  background: rgba(255,255,255,.09);
+  border: 1px solid rgba(160,205,255,.24);
+  border-radius: 25px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.admin-panel-label svg {
+  color: #ffd044;
+}
+
+.admin-sidebar-line {
+  margin-top: 3px;
+  margin-bottom: 14px;
+}
+
+/* Align Quick Actions heading with other bottom cards */
+@media (min-width: 1200px) {
+  .admin-quick-card {
+    justify-content: flex-start;
+    padding-top: 17px;
+  }
+
+  .admin-quick-heading {
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+
+  .admin-quick-grid {
+    flex: 1;
+    align-content: center;
+  }
+
+  .admin-quick-action {
+    min-height: 100px;
+  }
+}
+
+
+/* ==========================================
+   ADMIN DASHBOARD - PREMIUM VISUAL FINISH
+   ========================================== */
+
+/* Brand placement */
+.admin-sidebar .brand-logo {
+  min-height: 78px;
+  height: 78px;
+  padding-left: 5px;
+}
+
+.admin-sidebar-line {
+  margin: 0 3px 15px;
+}
+
+/* Welcome banner */
+.admin-welcome-banner {
+  background:
+    radial-gradient(ellipse at 15% 50%, rgba(19, 132, 242, .23), transparent 27%),
+    radial-gradient(ellipse at 75% 0%, rgba(0, 194, 255, .32), transparent 40%),
+    linear-gradient(105deg, #06266A 0%, #0755AE 57%, #078EC3 100%);
+  border: 1px solid #54BFFF;
+  box-shadow:
+    0 7px 17px rgba(0, 66, 143, .14),
+    inset 0 1px 0 rgba(255,255,255,.15);
+}
+
+.admin-banner-trophy {
+  background: radial-gradient(
+    ellipse,
+    rgba(255, 204, 57, .22),
+    rgba(255, 204, 57, .06) 54%,
+    transparent 72%
+  );
+}
+
+.admin-banner-trophy > svg {
+  width: 78px;
+  height: 78px;
+  stroke-width: 1.8;
+  color: #FFD13E;
+  filter: drop-shadow(0 5px 8px rgba(255, 190, 24, .36));
+}
+
+.admin-banner-copy h2 {
+  text-shadow: 0 2px 10px rgba(0,0,0,.13);
+  letter-spacing: -1.2px;
+}
+
+.admin-banner-art > svg {
+  filter: drop-shadow(0 7px 9px rgba(0,0,0,.25));
+}
+
+/* Statistics */
+.admin-stat-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #d4e3f7;
+  box-shadow: 0 5px 15px rgba(30, 75, 140, .09);
+}
+
+.admin-stat-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+}
+
+.admin-stat-info > strong {
+  letter-spacing: -.6px;
+}
+
+/* Panels */
+.admin-card {
+  border: 1px solid #d2e2f7;
+  box-shadow:
+    0 5px 15px rgba(35, 79, 145, .09),
+    inset 0 1px 0 rgba(255,255,255,.75);
+}
+
+.admin-card-heading h3 {
+  letter-spacing: -.35px;
+}
+
+.admin-card-heading h3 svg {
+  stroke-width: 2.15;
+}
+
+/* Exam Overview */
+.admin-performance-donut {
+  filter: drop-shadow(0 5px 9px rgba(20, 160, 75, .09));
+}
+
+.admin-donut-center {
+  box-shadow: inset 0 0 0 1px rgba(220,230,244,.5);
+}
+
+/* Live leaderboard */
+.admin-live-leaderboard {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(0, 147, 255, .35), transparent 43%),
+    linear-gradient(140deg, #061C56, #073B87 75%, #082B65);
+  border: 1px solid #1769bb;
+  box-shadow: 0 7px 17px rgba(0, 47, 121, .18);
+}
+
+.admin-live-row.first {
+  box-shadow:
+    0 0 12px rgba(255, 199, 42, .15),
+    inset 0 0 10px rgba(255, 207, 56, .05);
+}
+
+/* Subject performance */
+.admin-subject-ring {
+  filter: drop-shadow(0 3px 5px rgba(30, 70, 135, .08));
+}
+
+.admin-subject-item > strong {
+  color: #102449;
+}
+
+/* Recent activity */
+.admin-recent-item {
+  border-color: #e8eff8;
+}
+
+.admin-activity-dot {
+  box-shadow: 0 2px 5px rgba(30, 70, 130, .06);
+}
+
+/* Quick Actions */
+.admin-quick-card {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(0, 154, 255, .25), transparent 45%),
+    linear-gradient(140deg, #061D58, #082F76);
+  box-shadow: 0 7px 18px rgba(0, 47, 121, .17);
+}
+
+.admin-quick-action {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.28),
+    0 4px 10px rgba(0,0,0,.13);
+}
+
+.admin-quick-action span {
+  font-size: 9px;
+  letter-spacing: -.1px;
+}
+
+/* Keep student and admin logo identical */
+@media (max-width: 600px) {
+  .brand-logo {
+    min-height: 66px;
+    height: 66px;
+    gap: 7px;
+    padding-left: 4px;
+  }
+
+  .brand-logo-mark {
+    width: 48px;
+    height: 48px;
+  }
+
+  .brand-logo-name {
+    font-size: 21px;
+  }
+}
+
