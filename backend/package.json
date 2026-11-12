@@ -6,7 +6,9 @@
   "scripts": {
     "test": "node --test",
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "seed:admin": "node scripts/seed-admin.js",
+    "seed:badges": "node scripts/seed-badges.js"
   },
   "keywords": [],
   "author": "",
