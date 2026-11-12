@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import RegistrationPage from "./RegistrationPage.jsx";
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import {
   ArrowRight, ChartNoAxesCombined, Eye, EyeOff, Gamepad2,
@@ -57,7 +58,7 @@ function LoginPage() {
           <img src={LOGO} alt="Champion Arena" className="brand-logo" />
         </button>
         <nav className="header-actions" aria-label="Main navigation">
-          <button className="header-login" onClick={() => navigate("/login")}>Login</button>
+          <button className="header-login is-selected" onClick={() => navigate("/login")}>Login</button>
           <button className="header-register" onClick={() => navigate("/register")}>Register</button>
         </nav>
       </header>
@@ -256,7 +257,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<PlaceholderPage title="Create your account" description="The registration page will be implemented next." />} />
+      <Route path="/register" element={<RegistrationPage />} />
       <Route path="/forgot-password" element={<PlaceholderPage title="Reset your password" description="Password recovery will be implemented with the authentication flow." />} />
       <Route path="/student/dashboard" element={<PlaceholderPage title="Student Dashboard" description="Demo navigation succeeded. Connect this page to the student dashboard when ready." />} />
       <Route path="/admin/dashboard" element={<PlaceholderPage title="Admin Dashboard" description="Demo navigation succeeded. Connect this page to the admin dashboard when ready." />} />
