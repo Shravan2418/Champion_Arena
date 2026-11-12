@@ -9,6 +9,9 @@ import { useState } from "react";
 import Sidebar from "../../components/dashboard/Sidebar";
 import Header from "../../components/dashboard/Header";
 import "../../styles/dashboard.css";
+import LeaderboardPage from "./LeaderboardPage";
+import AchievementsPage from "./AchievementsPage";
+import ReportsPage from "./ReportsPage";
 
 const stats = [
   { icon: ClipboardList, value: "12", label: "Exams Taken", color: "purple" },
@@ -317,6 +320,12 @@ export default function StudentDashboard() {
               Learn <span>•</span> Practice <span>•</span> Compete <span>•</span> Excel
             </footer>
           </div>
+        ) : active === "Leaderboard" ? (
+          <LeaderboardPage />
+        ) : active === "Achievements" ? (
+          <AchievementsPage />
+        ) : active === "Reports" ? (
+          <ReportsPage />
         ) : (
           <div className="section-placeholder">
             <Trophy size={42} />
@@ -329,3 +338,4 @@ export default function StudentDashboard() {
     </div>
   );
 }
+
