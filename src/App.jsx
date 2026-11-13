@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import RegistrationPage from "./RegistrationPage.jsx";
+import Registration from "./components/auth/Registration";
 import HomePage from "./HomePage.jsx";
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import {
@@ -259,7 +259,7 @@ function AppRoutes() {
       <Route path="/" element={<HomePage />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegistrationPage />} />
+      <Route path="/register" element={<Registration />} />
       <Route path="/forgot-password" element={<PlaceholderPage title="Reset your password" description="Password recovery will be implemented with the authentication flow." />} />
       <Route path="/student/dashboard" element={<PlaceholderPage title="Student Dashboard" description="Demo navigation succeeded. Connect this page to the student dashboard when ready." />} />
       <Route path="/admin/dashboard" element={<PlaceholderPage title="Admin Dashboard" description="Demo navigation succeeded. Connect this page to the admin dashboard when ready." />} />

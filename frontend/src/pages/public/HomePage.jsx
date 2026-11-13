@@ -8,7 +8,7 @@ import {
   NotebookPen, Medal, Check, Zap, Flame, PlayCircle, ShieldCheck,
   ChevronRight, Sparkles, Youtube, Instagram, Github, Linkedin, GraduationCap
 } from "lucide-react";
-import "./home.css";
+import "../../styles/home.css";
 
 const logo = "/images/champion-arena-logo.png";
 

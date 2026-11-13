@@ -1,0 +1,64 @@
+.ca-brand-logo {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-start;
+  width: clamp(190px, 18vw, 292px);
+  height: 58px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ca-brand-logo-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: drop-shadow(0 0 7px rgba(255, 197, 36, 0.14));
+}
+
+.ca-brand-logo:focus-visible {
+  outline: 2px solid rgba(255, 213, 31, 0.9);
+  outline-offset: 5px;
+  border-radius: 5px;
+}
+
+/* Registration headers can use the same image with a slightly larger variant. */
+.ca-brand-logo--large {
+  width: clamp(220px, 21vw, 330px);
+  height: 66px;
+}
+
+@media (max-width: 1200px) {
+  .ca-brand-logo {
+    width: clamp(180px, 19vw, 245px);
+    height: 52px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ca-brand-logo {
+    width: clamp(150px, 43vw, 188px);
+    height: 42px;
+  }
+
+  .ca-brand-logo--large {
+    width: clamp(170px, 48vw, 215px);
+    height: 48px;
+  }
+}
+
+@media (max-width: 380px) {
+  .ca-brand-logo {
+    width: 145px;
+    height: 38px;
+  }
+}
