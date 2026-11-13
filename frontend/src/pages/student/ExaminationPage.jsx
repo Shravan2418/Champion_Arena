@@ -2,12 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import {
   Trophy, Bell, ChevronDown, Clock3, Upload, ClipboardList,
   CheckCircle2, Info, ArrowLeft, ArrowRight, BookOpen, X,
-  AlertTriangle, Flame, Star, GraduationCap, Home, Volume2, VolumeX
+  AlertTriangle, Home, Volume2, VolumeX
 } from "lucide-react";
 import "../../styles/examination-page.css";
 
 const STORAGE_KEY = "champion-arena-java-assessment-v1";
-const EXAM_DURATION_SECONDS = 60 * 60;
 
 // Demo Java MCQ bank: 30 questions. Replace this array with the exam API response later.
 const QUESTIONS = [
@@ -127,11 +126,6 @@ export default function ExaminationPage({
   }, [secondsLeft, submitted]);
 
   useEffect(() => {
-    setShowExplanation(false);
-    setFeedbackOverlay(null);
-  }, [currentIndex]);
-
-  useEffect(() => {
     if (feedbackOverlay !== "correct") return undefined;
     const timeout = window.setTimeout(() => setFeedbackOverlay(null), 2800);
     return () => window.clearTimeout(timeout);
@@ -191,7 +185,12 @@ export default function ExaminationPage({
   }
 
   function goToQuestion(index) {
-    if (index < 0 || index >= QUESTIONS.length) return;
+    if (index < 0 || index >= QUESTIONS.length || index === currentIndex) return;
+
+    // Reset per-question feedback in the user event that changes the question.
+    // This avoids cascading state updates from an effect after rendering.
+    setShowExplanation(false);
+    setFeedbackOverlay(null);
     setCurrentIndex(index);
   }
 
@@ -437,8 +436,4 @@ function MotivationLandscape() {
       </g>
     </svg>
   );
-}
-
-function SparklesFallback() {
-  return <span className="ca-sparkles-fallback">✦</span>;
 }

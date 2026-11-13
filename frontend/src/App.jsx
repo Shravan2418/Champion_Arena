@@ -1,51 +1,100 @@
-﻿
-import React from "react";
+import { useEffect, useState } from "react";
 import {
   BrowserRouter,
-  Routes,
-  Route,
   Navigate,
+  Route,
+  Routes,
+  Link,
 } from "react-router-dom";
 
-// Public pages
-import HomePage from "./pages/public/HomePage.jsx";
+import Login from "./components/auth/Login";
+import RegistrationPage from "./pages/auth/RegistrationPage";
+import StudentDashboard from "./pages/student/StudentDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import { fetchCurrentUser } from "./services/sessionApi";
 
-// Authentication pages
-import Login from "./components/auth/Login.jsx";
-import RegistrationPage from "./components/auth/Registration.jsx";
+function SessionChecking({ message = "Checking your Champion Arena session…" }) {
+  return (
+    <main className="ca-auth-state" role="status" aria-live="polite">
+      <div className="ca-auth-state-card">
+        <div className="ca-auth-loading-spinner" aria-hidden="true" />
+        <h1>Champion Arena</h1>
+        <p>{message}</p>
+      </div>
+    </main>
+  );
+}
 
-// Student and Admin dashboards
-import StudentDashboard from "./pages/student/StudentDashboard.jsx";
-import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
+function AdminRoute() {
+  const [session, setSession] = useState({ status: "checking", user: null });
+
+  useEffect(() => {
+    let active = true;
+
+    fetchCurrentUser()
+      .then((user) => {
+        if (!active) return;
+
+        if (user?.role === "admin") {
+          setSession({ status: "authorized", user });
+        } else if (user?.role === "student") {
+          setSession({ status: "student", user });
+        } else {
+          setSession({ status: "unauthenticated", user: null });
+        }
+      })
+      .catch(() => {
+        if (active) setSession({ status: "unauthenticated", user: null });
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  if (session.status === "checking") {
+    return <SessionChecking message="Verifying administrator access…" />;
+  }
+
+  if (session.status === "student") {
+    return <Navigate to="/student/dashboard" replace />;
+  }
+
+  if (session.status !== "authorized") {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <AdminDashboard />;
+}
+
+function NotFoundPage() {
+  return (
+    <main className="ca-auth-state">
+      <div className="ca-auth-state-card">
+        <h1>Page not found</h1>
+        <p>The page you requested does not exist.</p>
+        <Link className="ca-primary-button" to="/login">
+          Go to Login
+        </Link>
+      </div>
+    </main>
+  );
+}
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public pages */}
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
-
         <Route path="/register" element={<RegistrationPage />} />
 
-        {/* Student */}
-        <Route
-          path="/student/dashboard"
-          element={<StudentDashboard />}
-        />
+        <Route path="/student/*" element={<StudentDashboard />} />
 
-        {/* Admin */}
-        <Route
-          path="/admin"
-          element={<AdminDashboard />}
-        />
-        <Route
-          path="/admin/dashboard"
-          element={<AdminDashboard />}
-        />
+        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+        <Route path="/admin/*" element={<AdminRoute />} />
 
-        {/* Invalid routes */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

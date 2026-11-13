@@ -319,8 +319,6 @@ function ExamModal({ exam, onClose, onStartExam }) {
 }
 
 function ContinueExam({ exam, onView }) {
-  const Icon = exam.icon;
-
   return (
     <section className="ca-continue-card">
       <div className="ca-continue-illustration">

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -21,15 +21,27 @@ const API_BASE_URL = (
 
 const REMEMBERED_EMAIL_KEY = "champion_remembered_email";
 
+function readRememberedEmail() {
+  try {
+    return window.localStorage.getItem(REMEMBERED_EMAIL_KEY) || "";
+  } catch {
+    // Browser storage may be unavailable in private browsing.
+    return "";
+  }
+}
+
 export default function Login() {
   const navigate = useNavigate();
   const reduceMotion = useReducedMotion();
 
   const [role, setRole] = useState("student");
-  const [email, setEmail] = useState("");
+  // Read the remembered email once when the form initializes instead of
+  // synchronously setting React state from an effect after the first render.
+  const [initialRememberedEmail] = useState(readRememberedEmail);
+  const [email, setEmail] = useState(initialRememberedEmail);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(Boolean(initialRememberedEmail));
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
   const [loading, setLoading] = useState(false);
@@ -40,18 +52,6 @@ export default function Login() {
     () => `${API_BASE_URL}/auth/${isAdmin ? "admin" : "student"}/login`,
     [isAdmin]
   );
-
-  useEffect(() => {
-    try {
-      const rememberedEmail = localStorage.getItem(REMEMBERED_EMAIL_KEY);
-      if (rememberedEmail) {
-        setEmail(rememberedEmail);
-        setRememberMe(true);
-      }
-    } catch {
-      // Browser storage may be unavailable in private browsing.
-    }
-  }, []);
 
   const changeRole = (nextRole) => {
     if (loading || nextRole === role) return;

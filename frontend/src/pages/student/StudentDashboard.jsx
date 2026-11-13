@@ -1,416 +1,422 @@
-﻿
-import MyExams from "./MyExams";
-import ExaminationPage from "./ExaminationPage";
+import { useCallback, useEffect, useState } from "react";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
-  Trophy, ClipboardList, CheckCircle2, ChartNoAxesColumnIncreasing,
-  Flame, Target, Brain, BookOpen, Monitor, CalendarDays,
-  Crown, FileText, Play, ArrowRight, Clock,
-  Shield, Star, Sparkles, Award
+  Award, BookOpen, CalendarDays, ChartNoAxesColumnIncreasing,
+  CheckCircle2, ChevronRight, CirclePlay, FileText, Flame,
+  Medal, ShieldCheck, Sparkles, Star, Target, Trophy, Zap,
 } from "lucide-react";
 
-import { useState } from "react";
-import Sidebar from "../../components/dashboard/Sidebar";
 import Header from "../../components/dashboard/Header";
-import "../../styles/dashboard.css";
+import Sidebar from "../../components/dashboard/Sidebar";
+import ExamsPage from "./ExamsPage";
+import QuizzesPage from "./QuizzesPage";
 import LeaderboardPage from "./LeaderboardPage";
 import AchievementsPage from "./AchievementsPage";
 import ReportsPage from "./ReportsPage";
+import ResourcesPage from "./ResourcesPage";
+import ProfilePage from "./ProfilePage";
+import LogoutConfirmation from "../../components/student/LogoutConfirmation";
+import { fetchCurrentUser, logoutSession } from "../../services/sessionApi";
+import { studentDashboardDemo } from "./studentDashboard.demo";
+import "../../styles/student-dashboard.css";
+import "../../styles/student-portal.css";
 
-const stats = [
-  { icon: ClipboardList, value: "12", label: "Exams Taken", color: "purple" },
-  { icon: CheckCircle2, value: "86%", label: "Avg. Accuracy", color: "green" },
-  { icon: ChartNoAxesColumnIncreasing, value: "1,250", label: "Total Score", color: "blue" },
-  { icon: Flame, value: "7", label: "Day Streak", color: "orange" },
-];
+const DEMO_MODE = import.meta.env.DEV && import.meta.env.VITE_DASHBOARD_DEMO_MODE === "true";
+const staticMotion = { initial: false, animate: false, transition: { duration: 0 } };
+const fmt = (value) => Number(value || 0).toLocaleString("en-IN");
+const initials = (name = "Student") => name.trim().split(/\s+/).slice(0, 2).map((word) => word[0]?.toUpperCase() || "").join("") || "S";
 
-const subjects = [
-  { name: "Aptitude", value: 80, icon: Target, color: "green" },
-  { name: "Logical Reasoning", value: 70, icon: Brain, color: "yellow" },
-  { name: "General Knowledge", value: 75, icon: BookOpen, color: "green" },
-  { name: "Computer Basics", value: 60, icon: Monitor, color: "yellow" },
-];
+const studentRoutes = {
+  Dashboard: "/student/dashboard",
+  Exams: "/student/exams",
+  Quizzes: "/student/quizzes",
+  Leaderboard: "/student/leaderboard",
+  Achievements: "/student/achievements",
+  "My Performance": "/student/performance",
+  Resources: "/student/resources",
+  Profile: "/student/profile",
+};
 
-const leaders = [
-  { rank: 1, name: "Ananya R.", score: "3,820", avatar: "A" },
-  { rank: 2, name: "Karthik M.", score: "3,650", avatar: "K" },
-  { rank: 3, name: "Vishnu S.", score: "3,510", avatar: "V" },
-  { rank: 4, name: "You (Shravan)", score: "3,300", avatar: "S", you: true },
-  { rank: 5, name: "Priya D.", score: "3,280", avatar: "P" },
-];
+const studentRouteAliases = {
+  dashboard: "Dashboard", home: "Dashboard",
+  exams: "Exams", exam: "Exams", "my-exams": "Exams", myexams: "Exams",
+  quizzes: "Quizzes", quiz: "Quizzes", "practice-quizzes": "Quizzes",
+  leaderboard: "Leaderboard", rankings: "Leaderboard",
+  achievements: "Achievements", achievement: "Achievements", badges: "Achievements",
+  performance: "My Performance", "my-performance": "My Performance", myperformance: "My Performance",
+  reports: "My Performance", report: "My Performance", results: "My Performance",
+  resources: "Resources", resource: "Resources", "study-resources": "Resources",
+  profile: "Profile", "my-profile": "Profile",
+};
 
-const exams = [
-  { name: "DBMS Internal Test", date: "Nov 15, 10:00 AM" },
-  { name: "Aptitude Test", date: "Nov 20, 11:00 AM" },
-];
+function resolveStudentPage(pathname) {
+  let decoded = pathname || "/student/dashboard";
+  try { decoded = decodeURIComponent(decoded); } catch { /* Keep malformed URL unchanged. */ }
+  const normalized = decoded.toLowerCase().replace(/\/+$/, "") || "/student/dashboard";
+  const lastSegment = normalized.split("/").filter(Boolean).pop() || "dashboard";
+  return studentRouteAliases[lastSegment] || "Dashboard";
+}
 
-const achievements = [
-  { name: "Bronze", detail: "5+ Correct", icon: Shield, color: "bronze" },
-  { name: "Silver", detail: "10+ Correct", icon: Shield, color: "silver" },
-  { name: "Gold", detail: "20+ Correct", icon: Shield, color: "gold" },
-];
+function DemoNotice() {
+  return <span className="ca-demo-notice"><i /> DEMO PREVIEW · SAMPLE METRICS</span>;
+}
 
-function Hero() {
+function WelcomeBanner({ name, reduceMotion }) {
   return (
-    <section className="hero-banner">
-      <div className="hero-content">
-        <div className="hero-eyebrow">
-          <Sparkles size={17} /> YOUR LEARNING JOURNEY
-        </div>
-        <h1>Hello, <span>Shravan!</span></h1>
-        <p>Ready for your next challenge?</p>
-        <div className="hero-subtitle">
-          Keep learning. Keep growing. Reach the top.
+    <motion.section className="ca-welcome-banner ca-glow-panel" {...(reduceMotion ? staticMotion : {
+      initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.42, ease: "easeOut" },
+    })}>
+      <div className="ca-welcome-copy">
+        <span className="ca-welcome-hand" aria-hidden="true">👋</span>
+        <div>
+          <h1>Welcome, {name}!</h1>
+          <p>Keep practicing and move up the leaderboard!</p>
+          <DemoNotice />
         </div>
       </div>
-
-      <div className="levelup-art">
-        <div className="levelup-glow" />
-        <div className="levelup-shield">
-          <Trophy size={49} />
-          <div className="levelup-arrow">↑</div>
-        </div>
-        <div className="levelup-text">LEVEL <span>UP</span></div>
-        <div className="levelup-laurel">✦</div>
+      <div className="ca-welcome-trophy" aria-hidden="true">
+        <span className="ca-welcome-star star-one">✦</span><span className="ca-welcome-star star-two">✧</span><span className="ca-welcome-star star-three">✦</span>
+        <div className="ca-welcome-laurel">❧</div>
+        <div className="ca-welcome-trophy-icon"><Trophy size={72} strokeWidth={1.55} /></div>
+        <div className="ca-welcome-laurel right">❧</div>
       </div>
-    </section>
+    </motion.section>
   );
 }
 
-function Stats() {
+function LevelCard({ data, reduceMotion }) {
+  const percent = Math.min(100, Math.round((data.earned / data.nextLevel) * 100));
   return (
-    <section className="stats-grid">
-      {stats.map((item) => {
-        const Icon = item.icon;
+    <motion.section className="ca-level-card ca-glow-panel" {...(reduceMotion ? staticMotion : {
+      initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.46, delay: 0.04, ease: "easeOut" },
+    })}>
+      <div className="ca-level-card-top">
+        <div className="ca-level-shield"><ShieldCheck size={43} fill="rgba(255,201,36,.16)" /></div>
+        <div><h2>{data.tier}</h2><p>Level {data.level}</p></div>
+      </div>
+      <div className="ca-level-meta"><strong>Level {data.level}</strong></div>
+      <div className="ca-xp-track" role="progressbar" aria-label="XP progress" aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100}>
+        <motion.span initial={reduceMotion ? false : { width: 0 }} animate={{ width: `${percent}%` }} transition={{ duration: reduceMotion ? 0 : 0.9, delay: 0.25 }} />
+      </div>
+      <p className="ca-xp-label">{fmt(data.earned)} / {fmt(data.nextLevel)} XP</p>
+    </motion.section>
+  );
+}
+
+const statIcons = { exams: Target, accuracy: CheckCircle2, score: ChartNoAxesColumnIncreasing, streak: Flame };
+function Statistics({ stats, reduceMotion }) {
+  return (
+    <section className="ca-stats-grid" aria-label="Student statistics">
+      {stats.map((item, index) => {
+        const Icon = statIcons[item.kind];
         return (
-          <div className="stat-card" key={item.label}>
-            <div className={`stat-icon ${item.color}`}>
-              <Icon size={27} />
-            </div>
-            <div>
-              <h2>{item.value}</h2>
-              <p>{item.label}</p>
-            </div>
-          </div>
+          <motion.article className={`ca-stat-card ca-stat-${item.kind} ca-glow-panel`} key={item.label} {...(reduceMotion ? staticMotion : {
+            initial: { opacity: 0, y: 9 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.35, delay: 0.06 + index * 0.055 },
+          })}>
+            <div className="ca-stat-icon"><Icon size={31} strokeWidth={2.4} /></div>
+            <div className="ca-stat-copy"><strong>{item.value}</strong><span>{item.label}</span></div>
+          </motion.article>
         );
       })}
     </section>
   );
 }
 
-function ProgressCard() {
+const progressIcons = { exam: FileText, quiz: CheckCircle2, practice: BookOpen };
+function ProgressCard({ data, reduceMotion }) {
   return (
-    <section className="panel progress-panel">
-      <div className="panel-heading">
-        <ChartNoAxesColumnIncreasing className="heading-icon blue-text" />
-        <h3>Your Progress</h3>
-      </div>
-
-      <div className="progress-content">
-        <div className="progress-circle">
-          <div className="progress-circle-inner">
-            <strong>72%</strong>
-            <span>Overall Progress</span>
-          </div>
+    <motion.section className="ca-panel ca-progress-panel ca-glow-panel" {...(reduceMotion ? staticMotion : {
+      initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.4, delay: 0.12 },
+    })}>
+      <div className="ca-panel-heading"><ChartNoAxesColumnIncreasing size={25} /><h2>Your Progress</h2></div>
+      <div className="ca-progress-content">
+        <div className="ca-accuracy-ring" style={{ "--accuracy": `${data.accuracy}%` }}>
+          <div className="ca-accuracy-ring-inner"><strong>{data.accuracy}%</strong><span>Overall</span><span>Accuracy</span></div>
         </div>
-
-        <div className="subject-list">
-          {subjects.map((subject) => {
-            const Icon = subject.icon;
+        <div className="ca-progress-list">
+          {data.rows.map((row) => {
+            const Icon = progressIcons[row.kind];
             return (
-              <div className="subject-item" key={subject.name}>
-                <div className={`subject-icon ${subject.color}`}>
-                  <Icon size={23} />
+              <div className="ca-progress-row" key={row.label}>
+                <Icon size={23} /><span className="ca-progress-row-label">{row.label}</span>
+                <div className="ca-mini-progress-track" role="progressbar" aria-label={`${row.label} progress`} aria-valuenow={row.percent} aria-valuemin={0} aria-valuemax={100}>
+                  <motion.span initial={reduceMotion ? false : { width: 0 }} animate={{ width: `${row.percent}%` }} transition={{ duration: reduceMotion ? 0 : 0.85, delay: 0.25 }} />
                 </div>
-                <div className="subject-info">
-                  <div className="subject-label">
-                    <strong>{subject.name}</strong>
-                    <b>{subject.value}%</b>
-                  </div>
-                  <div className="progress-track">
-                    <div
-                      className={`progress-fill ${subject.color}`}
-                      style={{ width: `${subject.value}%` }}
-                    />
-                  </div>
-                </div>
+                <strong>{row.value}</strong>
               </div>
             );
           })}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
 
-function Leaderboard() {
-  return (
-    <section className="panel leaderboard-panel">
-      <div className="panel-heading">
-        <Trophy className="heading-icon gold-text" />
-        <h3>Leaderboard (Top 5)</h3>
-        <button
-          className="view-all"
-          onClick={() => alert("Leaderboard details coming soon.")}
-        >
-          View All <ArrowRight size={17} />
-        </button>
-      </div>
+function BadgeArtwork({ kind }) {
+  const Icon = kind === "streak" ? Flame : Star;
+  return <div className={`ca-badge-art ca-badge-${kind}`}><div className="ca-badge-art-inner"><Icon size={34} fill="rgba(255,255,255,.12)" /></div></div>;
+}
 
-      <div className="leader-list">
-        {leaders.map((leader) => (
-          <div
-            className={`leader-row ${leader.you ? "current-user" : ""}`}
-            key={leader.rank}
-          >
-            <div className="leader-rank">
-              {leader.rank <= 3 ? (
-                <Crown size={20} className={`rank-${leader.rank}`} />
-              ) : leader.rank}
-            </div>
-            <div className={`leader-avatar avatar-${leader.rank}`}>
-              {leader.avatar}
-            </div>
-            <strong>{leader.name}</strong>
-            <b>{leader.score}</b>
-          </div>
-        ))}
+function BadgesCard({ badges, onViewAll, reduceMotion }) {
+  return (
+    <motion.section className="ca-panel ca-badges-panel ca-glow-panel" {...(reduceMotion ? staticMotion : {
+      initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.4, delay: 0.17 },
+    })}>
+      <div className="ca-panel-heading"><Award size={24} /><h2>Your Badges</h2><button type="button" className="ca-view-all" onClick={onViewAll}>View All <ChevronRight size={17} /></button></div>
+      <div className="ca-badges-row">
+        {badges.map((badge) => <div className="ca-earned-badge" key={badge.name}><BadgeArtwork kind={badge.kind} /><strong>{badge.name}</strong><span>{badge.detail}</span></div>)}
       </div>
-    </section>
+    </motion.section>
   );
 }
 
-function UpcomingExams() {
-  const [startedExam, setStartedExam] = useState(null);
+function RankMedal({ rank }) {
+  if (rank === 1) return <span className="ca-rank-medal ca-rank-gold"><Trophy size={17} fill="currentColor" /></span>;
+  if (rank === 2) return <span className="ca-rank-medal ca-rank-silver"><Medal size={17} fill="currentColor" /></span>;
+  if (rank === 3) return <span className="ca-rank-medal ca-rank-bronze"><Medal size={17} fill="currentColor" /></span>;
+  return <span className="ca-rank-number">{rank}</span>;
+}
 
+function LeaderboardCard({ data, studentName, onViewAll, reduceMotion }) {
   return (
-    <section className="panel exams-panel">
-      <div className="panel-heading">
-        <CalendarDays className="heading-icon blue-text" />
-        <h3>Upcoming Exams</h3>
-        <button
-          className="view-all"
-          onClick={() => alert("All exams will be available here.")}
-        >
-          View All <ArrowRight size={17} />
-        </button>
+    <motion.section className="ca-panel ca-leaderboard-panel ca-glow-panel" {...(reduceMotion ? staticMotion : {
+      initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.4, delay: 0.22 },
+    })}>
+      <div className="ca-panel-heading"><Trophy size={25} /><h2>Leaderboard <span>(Top 5)</span></h2><button type="button" className="ca-view-all ca-icon-view-all" onClick={onViewAll} aria-label="View full leaderboard"><ChevronRight size={18} /></button></div>
+      <div className="ca-leader-list">
+        {data.leaders.map((leader) => <div className="ca-leader-row" key={leader.rank}><RankMedal rank={leader.rank} /><span className={`ca-leader-avatar ca-leader-avatar-${leader.rank}`}>{leader.initials}</span><strong>{leader.name}</strong><b>{fmt(leader.points)}</b></div>)}
       </div>
+      <div className="ca-your-rank-divider"><span />Your Rank<span /></div>
+      <div className="ca-leader-row ca-current-leader"><span className="ca-rank-number">{data.currentStudent.rank}</span><span className="ca-leader-avatar ca-current-avatar">{initials(studentName)}</span><strong>You ({studentName})</strong><b>{fmt(data.currentStudent.points)}</b></div>
+    </motion.section>
+  );
+}
 
-      <div className="exam-list">
+function UpcomingExamsCard({ exams, onViewAll, reduceMotion }) {
+  const [previewExam, setPreviewExam] = useState(null);
+  return (
+    <motion.section className="ca-panel ca-upcoming-panel ca-glow-panel" {...(reduceMotion ? staticMotion : {
+      initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.4, delay: 0.2 },
+    })}>
+      <div className="ca-panel-heading"><CalendarDays size={25} /><h2>Upcoming Exams</h2><button type="button" className="ca-view-all" onClick={onViewAll}>View All <ChevronRight size={17} /></button></div>
+      <div className="ca-upcoming-list">
         {exams.map((exam) => (
-          <div className="exam-row" key={exam.name}>
-            <div className="exam-icon">
-              <FileText size={24} />
-            </div>
-            <div className="exam-info">
-              <strong>{exam.name}</strong>
-              <span>
-                <CalendarDays size={15} /> {exam.date}
-              </span>
-            </div>
-            <button
-              className="start-button"
-              onClick={() => setStartedExam(exam.name)}
-            >
-              <Play size={15} fill="currentColor" />
-              Start
-            </button>
-          </div>
+          <article className="ca-upcoming-row" key={exam.id}>
+            <div className="ca-upcoming-icon"><FileText size={24} /></div>
+            <div className="ca-upcoming-info"><strong>{exam.name}</strong><span><CalendarDays size={14} /> {exam.date}, {exam.time}</span></div>
+            <ChevronRight className="ca-upcoming-chevron" size={20} />
+            <button type="button" className="ca-start-button" onClick={() => setPreviewExam(exam)}>Start</button>
+          </article>
         ))}
       </div>
-
-      {startedExam && (
-        <div
-          className="modal-backdrop"
-          onClick={() => setStartedExam(null)}
-        >
-          <div
-            className="exam-modal"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3>{startedExam}</h3>
-            <p>
-              Exam interface will be connected in the next development phase.
-            </p>
-            <button onClick={() => setStartedExam(null)}>Close</button>
-          </div>
+      {previewExam && (
+        <div className="ca-demo-exam-backdrop" role="presentation" onClick={() => setPreviewExam(null)}>
+          <section className="ca-demo-exam-dialog" role="dialog" aria-modal="true" aria-labelledby="ca-demo-exam-title" onClick={(event) => event.stopPropagation()}>
+            <div className="ca-demo-exam-icon"><CalendarDays size={26} /></div>
+            <span className="ca-demo-dialog-label">SAMPLE SCHEDULE ITEM</span>
+            <h3 id="ca-demo-exam-title">{previewExam.name}</h3>
+            <p>{previewExam.date} at {previewExam.time}</p>
+            <p className="ca-demo-dialog-note">This dashboard card currently uses preview data. Live exam launch will be connected when the exam API is available.</p>
+            <div className="ca-demo-dialog-actions">
+              <button type="button" className="ca-demo-dialog-secondary" onClick={() => setPreviewExam(null)}>Close</button>
+              <button type="button" className="ca-demo-dialog-primary" onClick={() => { setPreviewExam(null); onViewAll(); }}>View Exams</button>
+            </div>
+          </section>
         </div>
       )}
-    </section>
+    </motion.section>
   );
 }
 
-function Achievements() {
+function QuickActionsCard({ onAction, reduceMotion }) {
+  const actions = [
+    { label: "Practice", icon: Target, kind: "practice" },
+    { label: "Take Quiz", icon: CirclePlay, kind: "quiz" },
+    { label: "Study Resources", icon: BookOpen, kind: "resources" },
+    { label: "View Analytics", icon: ChartNoAxesColumnIncreasing, kind: "analytics" },
+  ];
   return (
-    <section className="panel achievements-panel">
-      <div className="panel-heading">
-        <Award className="heading-icon purple-text" />
-        <h3>My Achievements</h3>
-        <button
-          className="view-all"
-          onClick={() => alert("All achievements will be available here.")}
-        >
-          View All <ArrowRight size={17} />
-        </button>
+    <motion.section className="ca-panel ca-quick-actions-panel ca-glow-panel" {...(reduceMotion ? staticMotion : {
+      initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.4, delay: 0.25 },
+    })}>
+      <div className="ca-panel-heading"><Zap size={25} /><h2>Quick Actions</h2></div>
+      <div className="ca-quick-actions-grid">
+        {actions.map(({ label, icon: Icon, kind }) => <button type="button" className={`ca-quick-action ca-action-${kind}`} key={kind} onClick={() => onAction(kind)}><span className="ca-quick-action-icon"><Icon size={36} strokeWidth={2.25} /></span><span>{label}</span></button>)}
       </div>
-
-      <div className="achievement-list">
-        {achievements.map((item) => {
-          const Icon = item.icon;
-          return (
-            <div className="achievement-item" key={item.name}>
-              <div className={`achievement-medal ${item.color}`}>
-                <Icon size={37} />
-                <Star
-                  size={17}
-                  className="medal-star"
-                  fill="currentColor"
-                />
-              </div>
-              <strong>{item.name}</strong>
-              <span>{item.detail}</span>
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-function DailyGoal() {
-  const [completed, setCompleted] = useState(1);
-
-  return (
-    <section className="panel daily-panel">
-      <div className="panel-heading">
-        <Target className="heading-icon purple-text" />
-        <h3>Daily Goal</h3>
-        <span className="time-left">
-          <Clock size={14} /> 12h 34m Left
-        </span>
-      </div>
-
-      <p className="goal-title">Complete 2 Practice Quizzes</p>
-
-      <div className="goal-progress-row">
-        <div className="progress-track goal-track">
-          <div
-            className="progress-fill green"
-            style={{ width: `${completed * 50}%` }}
-          />
-        </div>
-        <strong>{completed}/2</strong>
-      </div>
-
-      <button
-        className="goal-action"
-        onClick={() =>
-          setCompleted((previous) => previous >= 2 ? 0 : previous + 1)
-        }
-      >
-        {completed === 2 ? "Reset Demo Goal" : "Complete Demo Goal"}
-      </button>
-    </section>
-  );
-}
-
-function LevelCard() {
-  return (
-    <section className="level-card">
-      <div className="level-card-top">
-        <div className="level-trophy">
-          <Trophy size={39} />
-        </div>
-        <div>
-          <h2>Gold</h2>
-          <p>Level 4</p>
-        </div>
-      </div>
-
-      <div className="xp-track">
-        <div className="xp-fill" />
-      </div>
-
-      <p className="xp-label">2,350 / 3,000 XP</p>
-    </section>
+    </motion.section>
   );
 }
 
 export default function StudentDashboard() {
-  const [active, setActive] = useState("Dashboard");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const active = resolveStudentPage(location.pathname);
+  const [authState, setAuthState] = useState(DEMO_MODE ? "ready" : "loading");
+  const [user, setUser] = useState(DEMO_MODE ? { full_name: import.meta.env.VITE_DEMO_STUDENT_NAME || "Student", role: "student" } : null);
+  const [authError, setAuthError] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [examMode, setExamMode] = useState(false);
+  const [logoutOpen, setLogoutOpen] = useState(false);
+  const [logoutError, setLogoutError] = useState("");
+  const reduceMotion = useReducedMotion();
 
-  if (examMode) {
+  const loadSession = useCallback(async () => {
+    setAuthState("loading");
+    setAuthError("");
+    if (DEMO_MODE) {
+      setUser({ full_name: import.meta.env.VITE_DEMO_STUDENT_NAME || "Student", role: "student" });
+      setAuthState("ready");
+      return;
+    }
+    try {
+      const currentUser = await fetchCurrentUser();
+      if (!currentUser) {
+        setUser(null);
+        setAuthState("unauthenticated");
+        return;
+      }
+      if (currentUser.role !== "student") {
+        setUser(currentUser);
+        setAuthState(currentUser.role === "admin" ? "admin" : "unauthenticated");
+        return;
+      }
+      setUser(currentUser);
+      setAuthState("ready");
+    } catch (error) {
+      setUser(null);
+      setAuthError(error.status === 401 ? "Your Student session has expired. Please sign in again." : error.message);
+      setAuthState("unauthenticated");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (DEMO_MODE) return undefined;
+    let mounted = true;
+    fetchCurrentUser()
+      .then((currentUser) => {
+        if (!mounted) return;
+        if (!currentUser) {
+          setUser(null);
+          setAuthState("unauthenticated");
+        } else if (currentUser.role !== "student") {
+          setUser(currentUser);
+          setAuthState(currentUser.role === "admin" ? "admin" : "unauthenticated");
+        } else {
+          setUser(currentUser);
+          setAuthState("ready");
+        }
+      })
+      .catch((error) => {
+        if (!mounted) return;
+        setUser(null);
+        setAuthError(error.status === 401 ? "Your Student session has expired. Please sign in again." : error.message);
+        setAuthState("unauthenticated");
+      });
+    return () => { mounted = false; };
+  }, []);
+
+  const studentName = user?.full_name || user?.fullName || "Student";
+  const dashboardData = studentDashboardDemo;
+
+  const handleNavigate = useCallback((name) => {
+    const route = studentRoutes[name] || studentRoutes.Dashboard;
+    navigate(route);
+    setMenuOpen(false);
+  }, [navigate]);
+
+  const handleLogout = useCallback(async () => {
+    setLogoutError("");
+    if (!DEMO_MODE) {
+      try {
+        await logoutSession();
+      } catch (error) {
+        setLogoutError(error.message || "Could not end the session. Please try again.");
+        return false;
+      }
+    }
+    setLogoutOpen(false);
+    setUser(null);
+    setAuthState("unauthenticated");
+    navigate("/login", { replace: true });
+    return true;
+  }, [navigate]);
+
+  const handleQuickAction = (kind) => {
+    if (kind === "practice" || kind === "quiz") handleNavigate("Quizzes");
+    else if (kind === "resources") handleNavigate("Resources");
+    else if (kind === "analytics") handleNavigate("My Performance");
+  };
+
+  if (authState === "loading") {
+    return <main className="ca-auth-state"><div className="ca-auth-state-card"><div className="ca-auth-state-spinner" /><h1>Preparing your arena</h1><p>Checking your student session…</p></div></main>;
+  }
+  if (authState === "admin") return <Navigate to="/admin" replace />;
+  if (authState !== "ready" || !user) {
     return (
-      <ExaminationPage
-        onExit={() => setExamMode(false)}
-      />
+      <main className="ca-auth-state">
+        <div className="ca-auth-state-card">
+          <div className="ca-auth-state-icon"><ShieldCheck size={34} /></div>
+          <h1>Student sign-in required</h1>
+          <p>{authError || "Sign in with a Student account to open your Champion Arena portal."}</p>
+          <button type="button" className="ca-primary-button" onClick={() => navigate("/login")}>Go to Login</button>
+          <button type="button" className="ca-simple-back" onClick={loadSession}>Check session again</button>
+        </div>
+      </main>
     );
   }
 
+  const renderContent = () => {
+    if (active === "Dashboard") {
+      return (
+        <div className="ca-dashboard-content">
+          <div className="ca-top-grid">
+            <div className="ca-top-left-column"><WelcomeBanner name={studentName} reduceMotion={reduceMotion} /><Statistics stats={dashboardData.stats} reduceMotion={reduceMotion} /></div>
+            <LevelCard data={dashboardData.xp} reduceMotion={reduceMotion} />
+          </div>
+          <div className="ca-middle-grid">
+            <ProgressCard data={dashboardData.progress} reduceMotion={reduceMotion} />
+            <BadgesCard badges={dashboardData.badges} onViewAll={() => handleNavigate("Achievements")} reduceMotion={reduceMotion} />
+            <LeaderboardCard data={dashboardData} studentName={studentName} onViewAll={() => handleNavigate("Leaderboard")} reduceMotion={reduceMotion} />
+          </div>
+          <div className="ca-bottom-grid">
+            <UpcomingExamsCard exams={dashboardData.upcomingExams} onViewAll={() => handleNavigate("Exams")} reduceMotion={reduceMotion} />
+            <QuickActionsCard onAction={handleQuickAction} reduceMotion={reduceMotion} />
+          </div>
+        </div>
+      );
+    }
+    if (active === "Exams") return <ExamsPage />;
+    if (active === "Quizzes") return <QuizzesPage />;
+    if (active === "Leaderboard") return <LeaderboardPage />;
+    if (active === "Achievements") return <AchievementsPage />;
+    if (active === "My Performance") return <ReportsPage onNavigate={handleNavigate} />;
+    if (active === "Resources") return <ResourcesPage />;
+    if (active === "Profile") return <ProfilePage user={user} onLogout={() => setLogoutOpen(true)} onNavigate={handleNavigate} />;
+    return null;
+  };
+
   return (
-    <div className="dashboard-layout">
-      <div className={menuOpen ? "sidebar-wrapper open" : "sidebar-wrapper"}>
-        <Sidebar
-          active={active}
-          setActive={(name) => {
-            setActive(name);
-            setMenuOpen(false);
-          }}
-        />
+    <div className="ca-student-app">
+      <Header user={user} onMenuClick={() => setMenuOpen((value) => !value)} onLogout={() => setLogoutOpen(true)} onNavigate={handleNavigate} />
+      <div className="ca-dashboard-body">
+        <Sidebar active={active} onNavigate={handleNavigate} onLogout={() => setLogoutOpen(true)} isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
+        <main className={`ca-dashboard-main ${active === "Dashboard" ? "" : "ca-dashboard-main-scroll"}`}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              className="ca-dashboard-page"
+              initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
+              transition={{ duration: reduceMotion ? 0 : 0.2 }}
+            >
+              {renderContent()}
+            </motion.div>
+          </AnimatePresence>
+          {active === "Dashboard" && <div className="ca-data-source-note"><Sparkles size={12} /> Metrics, leaderboard and exam entries are sample preview data until dashboard APIs are connected.</div>}
+        </main>
       </div>
-
-      <main className="dashboard-main">
-        <Header onMenuClick={() => setMenuOpen(!menuOpen)} />
-
-        {active === "Dashboard" ? (
-          <div className="dashboard-content">
-            <div className="top-section">
-              <Hero />
-              <LevelCard />
-            </div>
-
-            <Stats />
-
-            <div className="middle-section">
-              <ProgressCard />
-              <Leaderboard />
-            </div>
-
-            <div className="bottom-section">
-              <UpcomingExams />
-              <Achievements />
-              <DailyGoal />
-            </div>
-
-            <footer className="dashboard-footer">
-              Learn <span>•</span> Practice <span>•</span> Compete <span>•</span> Excel
-            </footer>
-          </div>
-        ) : active === "My Exams" ? (
-          <MyExams
-            onStartExam={() => setExamMode(true)}
-          />
-        ) : active === "Leaderboard" ? (
-          <LeaderboardPage />
-        ) : active === "Achievements" ? (
-          <AchievementsPage />
-        ) : active === "Reports" ? (
-          <ReportsPage />
-        ) : (
-          <div className="section-placeholder">
-            <Trophy size={42} />
-            <h2>{active}</h2>
-            <p>
-              This section is part of the Student Dashboard navigation.
-              Its functionality can be added next.
-            </p>
-            <button onClick={() => setActive("Dashboard")}>
-              Back to Dashboard
-            </button>
-          </div>
-        )}
-      </main>
+      <LogoutConfirmation open={logoutOpen} onCancel={() => { setLogoutOpen(false); setLogoutError(""); }} onConfirm={handleLogout} error={logoutError} />
     </div>
   );
 }

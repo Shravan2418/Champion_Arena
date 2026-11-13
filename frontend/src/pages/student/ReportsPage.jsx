@@ -1,154 +1,122 @@
-﻿import { useState } from "react";
 import {
-  ChartNoAxesCombined, TrendingUp, TrendingDown, Target,
-  Clock, ClipboardCheck, Download, CalendarDays,
-  CheckCircle2, XCircle, ArrowUpRight, FileText, BarChart3
+  ChartNoAxesCombined,
+  Target,
+  Trophy,
+  ClipboardCheck,
+  Flame,
+  BookOpen,
+  TrendingUp,
+  Lightbulb,
+  Clock3,
+  FileText,
+  Sparkles,
+  ArrowRight,
 } from "lucide-react";
+import { PageBanner, StatCard, GlassPanel, ProgressBar } from "../../components/student/PortalUI";
 
-const reportData = {
-  "7 Days": {
-    exams: 3, accuracy: 89, score: "420", study: "4h 20m",
-    trend: [48, 56, 52, 67, 62, 78, 89],
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  },
-  "30 Days": {
-    exams: 12, accuracy: 86, score: "1,250", study: "18h 35m",
-    trend: [54, 59, 56, 64, 61, 70, 66, 76, 72, 86],
-    labels: ["1", "4", "7", "10", "13", "16", "19", "22", "25", "30"],
-  },
-  "90 Days": {
-    exams: 28, accuracy: 82, score: "3,480", study: "56h 10m",
-    trend: [42, 48, 46, 55, 53, 61, 58, 68, 72, 82],
-    labels: ["Aug", "Sep", "Oct", "Nov"],
-  },
-};
+const performanceTrend = [
+  { month: "Jun", value: 20 },
+  { month: "Jul", value: 46 },
+  { month: "Aug", value: 48 },
+  { month: "Sep", value: 68 },
+  { month: "Oct", value: 63 },
+  { month: "Nov", value: 86 },
+];
 
 const subjects = [
-  { name: "Aptitude", accuracy: 80, exams: 4, color: "green" },
-  { name: "Logical Reasoning", accuracy: 70, exams: 3, color: "yellow" },
-  { name: "General Knowledge", accuracy: 75, exams: 2, color: "blue" },
-  { name: "Computer Basics", accuracy: 60, exams: 3, color: "purple" },
+  { name: "DBMS", value: 92 },
+  { name: "Operating Systems", value: 88 },
+  { name: "Computer Networks", value: 84 },
+  { name: "Data Structures", value: 80 },
+  { name: "Aptitude", value: 86 },
 ];
 
-const examHistory = [
-  { name: "DBMS Internal Test", date: "Nov 10, 2026", score: "88%", result: "Passed" },
-  { name: "Aptitude Practice Test", date: "Nov 08, 2026", score: "92%", result: "Passed" },
-  { name: "Computer Basics Quiz", date: "Nov 06, 2026", score: "76%", result: "Passed" },
-  { name: "Logical Reasoning Test", date: "Nov 04, 2026", score: "48%", result: "Failed" },
-  { name: "General Knowledge Quiz", date: "Nov 02, 2026", score: "85%", result: "Passed" },
+const recentAttempts = [
+  { type: "Exam", title: "DBMS Internal Test", accuracy: 90, score: "54 / 60" },
+  { type: "Quiz", title: "Operating Systems Quiz", accuracy: 88, score: "44 / 50" },
+  { type: "Quiz", title: "Aptitude Practice Quiz", accuracy: 84, score: "42 / 50" },
+  { type: "Exam", title: "Computer Networks Exam", accuracy: 82, score: "49 / 60" },
 ];
 
-export default function ReportsPage() {
-  const [range, setRange] = useState("30 Days");
-  const current = reportData[range];
-  const points = current.trend.map((value, index) => {
-    const x = 35 + index * (690 / (current.trend.length - 1));
-    const y = 165 - value * 1.35;
-    return `${x},${y}`;
-  }).join(" ");
-  const areaPoints = `35,165 ${points} 725,165`;
-
-  const exportCSV = () => {
-    const rows = [
-      ["Exam Name", "Date", "Score", "Result"],
-      ...examHistory.map((exam) => [exam.name, exam.date, exam.score, exam.result]),
-    ];
-    const csv = rows.map((row) => row.map((value) => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\r\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "champion-arena-exam-report.csv";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
-  };
+function TrendChart() {
+  const width = 650;
+  const height = 190;
+  const xStart = 24;
+  const xEnd = 625;
+  const yBottom = 160;
+  const yTop = 15;
+  const points = performanceTrend.map((point, index) => {
+    const x = xStart + (xEnd - xStart) * (index / (performanceTrend.length - 1));
+    const y = yBottom - (point.value / 100) * (yBottom - yTop);
+    return { ...point, x, y };
+  });
+  const polyline = points.map((point) => `${point.x},${point.y}`).join(" ");
+  const area = `${xStart},${yBottom} ${polyline} ${xEnd},${yBottom}`;
 
   return (
-    <div className="feature-page reports-page">
-      <div className="feature-page-header">
-        <div>
-          <span className="feature-eyebrow">MEASURE • LEARN • IMPROVE</span>
-          <h1><ChartNoAxesCombined /> My Reports</h1>
-          <p>Understand your performance and track your learning progress.</p>
-        </div>
-        <button className="feature-export-button" onClick={exportCSV}><Download size={17} /> Export CSV</button>
+    <div className="performance-chart-wrap">
+      <div className="performance-y-labels"><span>100%</span><span>80%</span><span>60%</span><span>40%</span><span>20%</span><span>0%</span></div>
+      <svg className="performance-line-chart" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" role="img" aria-label="Sample accuracy trend from June to November">
+        <defs><linearGradient id="performanceAreaFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#d43cff" stopOpacity=".42" /><stop offset="1" stopColor="#7a20ef" stopOpacity=".02" /></linearGradient></defs>
+        {[15, 44, 73, 102, 131, 160].map((y) => <line key={y} x1={xStart} x2={xEnd} y1={y} y2={y} className="performance-grid-line" />)}
+        <polygon points={area} fill="url(#performanceAreaFill)" />
+        <polyline points={polyline} className="performance-trend-line" />
+        {points.map((point) => <circle key={point.month} cx={point.x} cy={point.y} r="5" className="performance-trend-point" />)}
+        <g className="performance-last-value"><rect x={points.at(-1).x - 28} y={points.at(-1).y - 33} width="56" height="24" rx="9" /><text x={points.at(-1).x} y={points.at(-1).y - 17}>86%</text></g>
+      </svg>
+      <div className="performance-x-labels">{performanceTrend.map((point) => <span key={point.month}>{point.month}</span>)}</div>
+    </div>
+  );
+}
+
+export default function ReportsPage({ onNavigate }) {
+  return (
+    <div className="portal-page performance-page">
+      <PageBanner
+        icon={ChartNoAxesCombined}
+        eyebrow="ANALYZE • UNDERSTAND • IMPROVE"
+        title="My"
+        accent="Performance"
+        description="Analyze your progress, identify strengths, and improve further!"
+        art={() => <div className="banner-performance-art"><div className="performance-target"><Target size={84} /><span /></div><div className="performance-book-stack"><i /><i /><i /></div></div>}
+      />
+
+      <div className="portal-stat-grid five-columns">
+        <StatCard icon={Target} value="86%" label="Overall Accuracy" tone="purple" />
+        <StatCard icon={ChartNoAxesCombined} value="1,250" label="Total Score" tone="green" />
+        <StatCard icon={Trophy} value="12" label="Exams Taken" tone="gold" />
+        <StatCard icon={ClipboardCheck} value="20" label="Quizzes Taken" tone="cyan" />
+        <StatCard icon={Flame} value="7 Days" label="Current Streak" tone="red" />
       </div>
 
-      <section className="report-period-bar">
-        <div><CalendarDays /><span>Performance overview</span></div>
-        <div className="report-period-options">
-          {Object.keys(reportData).map((item) => (
-            <button key={item} className={range === item ? "selected" : ""} onClick={() => setRange(item)}>{item}</button>
-          ))}
-        </div>
-      </section>
-
-      <section className="report-stat-grid">
-        <article className="report-stat-card"><div className="report-stat-icon blue-summary"><ClipboardCheck /></div><div><span>Exams Attempted</span><strong>{current.exams}</strong><small>In selected period</small></div></article>
-        <article className="report-stat-card"><div className="report-stat-icon green-summary"><Target /></div><div><span>Average Accuracy</span><strong>{current.accuracy}%</strong><small><TrendingUp size={13} /> Performance indicator</small></div></article>
-        <article className="report-stat-card"><div className="report-stat-icon purple-summary"><BarChart3 /></div><div><span>Total Score</span><strong>{current.score}</strong><small>Points earned</small></div></article>
-        <article className="report-stat-card"><div className="report-stat-icon orange-summary"><Clock /></div><div><span>Study Time</span><strong>{current.study}</strong><small>Time spent learning</small></div></article>
-      </section>
-
-      <section className="report-chart-grid">
-        <article className="feature-panel accuracy-chart-panel">
-          <div className="feature-panel-heading">
-            <div><h2><TrendingUp /> Accuracy Trend</h2><p>Your average accuracy over time</p></div>
-            <span className="chart-positive"><TrendingUp size={14} /> {current.accuracy}%</span>
+      <div className="performance-main-grid">
+        <GlassPanel title="Performance Overview" icon={ChartNoAxesCombined} className="performance-overview-panel">
+          <TrendChart />
+        </GlassPanel>
+        <GlassPanel title="Subject-wise Performance" icon={BookOpen} className="subject-performance-panel">
+          <div className="subject-performance-list">
+            {subjects.map((subject) => <div className="subject-performance-row" key={subject.name}><div><strong>{subject.name}</strong><b>{subject.value}%</b></div><ProgressBar value={subject.value} tone="purple" /></div>)}
           </div>
-          <div className="line-chart-wrap">
-            <div className="chart-y-labels"><span>100%</span><span>75%</span><span>50%</span><span>25%</span><span>0%</span></div>
-            <svg className="accuracy-line-chart" viewBox="0 0 760 190" preserveAspectRatio="none" role="img" aria-label="Accuracy trend chart">
-              {[30, 64, 98, 132, 165].map((y) => <line key={y} x1="35" y1={y} x2="725" y2={y} className="chart-grid-line" />)}
-              <polygon points={areaPoints} className="chart-area" />
-              <polyline points={points} className="chart-line" />
-              {current.trend.map((value, index) => {
-                const x = 35 + index * (690 / (current.trend.length - 1));
-                const y = 165 - value * 1.35;
-                return <circle key={index} cx={x} cy={y} r="4.5" className="chart-point" />;
-              })}
-            </svg>
-            <div className="chart-x-labels">{current.labels.map((label) => <span key={label}>{label}</span>)}</div>
-          </div>
-        </article>
+        </GlassPanel>
+        <GlassPanel title="Performance Breakdown" icon={BookOpen} className="performance-breakdown-panel">
+          <div className="performance-breakdown-content"><div className="performance-donut"><div><strong>86%</strong><span>Overall</span></div></div><div className="performance-legend"><span><i className="legend-dot correct" />Correct <b>86%</b></span><span><i className="legend-dot incorrect" />Incorrect <b>14%</b></span></div></div>
+          <small className="performance-disclaimer">Illustrative breakdown for the sample dashboard.</small>
+        </GlassPanel>
+      </div>
 
-        <article className="feature-panel subject-report-panel">
-          <div className="feature-panel-heading"><div><h2><Target /> Subject Analysis</h2><p>Accuracy by subject</p></div></div>
-          <div className="subject-report-list">
-            {subjects.map((subject) => (
-              <div className="subject-report-item" key={subject.name}>
-                <div className="subject-report-label"><strong>{subject.name}</strong><span>{subject.accuracy}%</span></div>
-                <div className="subject-report-track"><span className={subject.color} style={{ width: `${subject.accuracy}%` }} /></div>
-                <small>{subject.exams} exams attempted</small>
-              </div>
-            ))}
-          </div>
-        </article>
-      </section>
+      <div className="performance-bottom-grid">
+        <GlassPanel title="Recent Attempts" icon={Clock3} className="recent-attempts-panel" action={<button type="button" className="portal-text-action" onClick={() => onNavigate?.("Exams")}>View All <ArrowRight size={15} /></button>}>
+          <div className="portal-table-wrap"><table className="portal-table attempts-table"><thead><tr><th>Type</th><th>Title</th><th>Accuracy</th><th>Score</th></tr></thead><tbody>{recentAttempts.map((attempt) => <tr key={attempt.title}><td><span className={`attempt-type ${attempt.type.toLowerCase()}`}>{attempt.type === "Exam" ? <FileText size={14} /> : <ClipboardCheck size={14} />}{attempt.type}</span></td><td><strong>{attempt.title}</strong></td><td><span className="attempt-accuracy">{attempt.accuracy}%</span></td><td><strong>{attempt.score}</strong></td></tr>)}</tbody></table></div>
+          <span className="portal-panel-foot-note">Sample attempt history · Not connected to stored results</span>
+        </GlassPanel>
 
-      <section className="feature-panel report-history-panel">
-        <div className="feature-panel-heading">
-          <div><h2><FileText /> Recent Exam History</h2><p>Your latest exam results and scores.</p></div>
-          <button className="report-view-all" onClick={exportCSV}>Download report <ArrowUpRight size={16} /></button>
-        </div>
-        <div className="ranking-table-wrap">
-          <table className="ranking-table report-history-table">
-            <thead><tr><th>Exam</th><th>Date</th><th>Score</th><th>Result</th></tr></thead>
-            <tbody>
-              {examHistory.map((exam) => (
-                <tr key={exam.name}>
-                  <td><div className="report-exam-name"><span><FileText size={17} /></span><strong>{exam.name}</strong></div></td>
-                  <td>{exam.date}</td>
-                  <td><strong>{exam.score}</strong></td>
-                  <td>{exam.result === "Passed" ? <span className="result-passed"><CheckCircle2 size={15} /> Passed</span> : <span className="result-failed"><XCircle size={15} /> Failed</span>}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+        <GlassPanel title="Improvement Insights" icon={Lightbulb} className="improvement-insights-panel">
+          <div className="insight-item positive"><span><TrendingUp size={23} /></span><div><strong>Great Progress!</strong><p>Your sample accuracy trend rises to 86% in November.</p></div></div>
+          <div className="insight-item focus"><span><Target size={23} /></span><div><strong>Focus on Data Structures</strong><p>It is the lowest-scoring subject in this sample set at 80%.</p></div></div>
+          <div className="insight-item consistency"><span><Flame size={23} /></span><div><strong>Keep the Streak Going!</strong><p>Continue a regular practice routine to build consistency.</p></div></div>
+          <small className="performance-disclaimer"><Sparkles size={13} /> Rule-based sample insights, not AI-generated or personalized.</small>
+        </GlassPanel>
+      </div>
     </div>
   );
 }
