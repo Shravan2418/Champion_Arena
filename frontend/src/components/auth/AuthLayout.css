@@ -516,64 +516,360 @@
   }
 }
 
-
-/* =========================================
-   STATIC BACKGROUND - REGISTRATION PAGE
-========================================= */
-
+/* ==========================================================
+   REGISTRATION PAGE REFINEMENT — fixed artwork + scroll layout
+   ========================================================== */
 .ca-auth-shell-register {
-  min-height: 100vh;
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  background: #10072f;
+}
+
+/* The supplied student artwork is extended to a wide canvas.
+   Keep this layer fixed while the document and form scroll. */
+.ca-auth-shell-register::before {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
   background:
-    radial-gradient(
-      ellipse at 18% 48%,
-      rgba(92, 55, 170, 0.22) 0%,
-      transparent 42%
-    ),
-    radial-gradient(
-      ellipse at 85% 15%,
-      rgba(72, 67, 165, 0.16) 0%,
-      transparent 38%
-    ),
-    linear-gradient(
-      135deg,
-      #080b20 0%,
-      #11132e 48%,
-      #090b20 100%
-    );
-  background-attachment: fixed;
-  animation: none !important;
+    linear-gradient(90deg,
+      rgba(10, 4, 42, 0.62) 0%,
+      rgba(14, 5, 54, 0.38) 34%,
+      rgba(13, 4, 48, 0.76) 58%,
+      rgba(10, 3, 37, 0.91) 100%),
+    linear-gradient(180deg, rgba(7, 3, 34, 0.28), rgba(13, 4, 47, 0.18) 55%, rgba(12, 4, 43, 0.62)),
+    url("/images/registration-static-bg.jpg") center center / cover no-repeat;
+  background-color: #10072f;
+  pointer-events: none;
 }
 
-/* Remove animated decorative background artwork */
-.ca-auth-shell-register .ca-auth-hero-art {
-  display: none !important;
+.ca-auth-shell-register .ca-auth-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(8, 4, 39, 0.88);
+  border-bottom-color: rgba(178, 112, 255, 0.58);
+  box-shadow: 0 8px 28px rgba(4, 0, 25, 0.28);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
-/* Keep the registration layout properly aligned */
-.ca-auth-shell-register .ca-auth-main-register {
-  background: transparent;
-  animation: none !important;
+.ca-auth-main-register {
+  position: relative;
+  z-index: 1;
+  min-height: calc(100svh - 82px);
+  align-items: start;
+  padding-top: clamp(26px, 4vh, 48px);
+  padding-bottom: 72px;
 }
 
-/* Disable background pseudo-element animations */
-.ca-auth-shell-register::before,
-.ca-auth-shell-register::after {
-  animation: none !important;
-  transform: none !important;
+.ca-auth-main-register .ca-auth-intro-stage {
+  position: sticky;
+  top: 112px;
+  align-self: start;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
 }
 
-/* Static background for all registration sections */
-.ca-auth-shell-register .ca-auth-intro-stage,
-.ca-auth-shell-register .ca-auth-form-stage {
-  background: transparent;
-}
-/* Keep the same static hero artwork on Login and Register */
-.ca-auth-hero-art {
-  animation: none !important;
-  transition: none !important;
+.ca-auth-main-register .ca-auth-intro-content {
+  padding-top: 4px;
 }
 
-.ca-auth-hero-art img {
-  animation: none !important;
-  transition: none !important;
+/* The full-page artwork now supplies the students/trophy image.
+   Hide the old floating cutout to avoid showing the students twice. */
+.ca-auth-main-register .ca-auth-hero-art {
+  display: none;
+}
+
+/* Keep the learning ribbon in normal flow so it can never overlap
+   the last feature when the viewport height changes. */
+.ca-auth-main-register .ca-auth-learning-ribbon {
+  position: relative;
+  inset: auto;
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: clamp(20px, 3vh, 34px);
+  padding: 11px 16px;
+  border: 1px solid rgba(204, 151, 255, 0.5);
+  border-radius: 999px;
+  background: rgba(22, 8, 69, 0.5);
+  box-shadow: 0 0 24px rgba(128, 51, 255, 0.2), inset 0 0 15px rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px);
+}
+
+.ca-auth-main-register .ca-auth-form-stage {
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.ca-auth-main-register .ca-register-card {
+  width: min(100%, 660px);
+  margin-bottom: 4px;
+  background: linear-gradient(145deg, rgba(38, 17, 91, 0.93), rgba(18, 8, 57, 0.96) 68%, rgba(34, 13, 79, 0.94));
+  box-shadow: 0 0 0 1px rgba(202, 149, 255, 0.16), 0 18px 60px rgba(4, 0, 25, 0.42), 0 0 32px rgba(155, 76, 255, 0.25);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+@media (max-width: 1200px) {
+  .ca-auth-main-register {
+    grid-template-columns: minmax(0, 1fr) minmax(410px, 0.98fr);
+    gap: 24px;
+  }
+  .ca-auth-main-register .ca-auth-intro-stage { top: 100px; }
+}
+
+@media (max-width: 980px) {
+  .ca-auth-shell-register::before {
+    background:
+      linear-gradient(180deg, rgba(10, 4, 42, 0.58), rgba(12, 4, 47, 0.83)),
+      url("/images/registration-static-bg.jpg") 43% center / cover no-repeat;
+  }
+  .ca-auth-main-register {
+    grid-template-columns: 1fr;
+    width: min(calc(100% - 40px), 760px);
+    padding-top: 28px;
+    gap: 24px;
+  }
+  .ca-auth-main-register .ca-auth-intro-stage {
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 0;
+  }
+  .ca-auth-main-register .ca-auth-intro-content { max-width: 680px; }
+  .ca-auth-main-register .ca-auth-feature-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    gap: 12px;
+  }
+  .ca-auth-main-register .ca-auth-feature-item {
+    align-items: flex-start;
+    gap: 9px;
+  }
+  .ca-auth-main-register .ca-auth-feature-icon {
+    width: 43px;
+    height: 43px;
+    flex-basis: 43px;
+  }
+  .ca-auth-main-register .ca-auth-feature-copy strong { font-size: 13px; }
+  .ca-auth-main-register .ca-auth-feature-copy small { font-size: 10px; }
+  .ca-auth-main-register .ca-auth-form-stage { justify-content: center; }
+}
+
+@media (max-width: 600px) {
+  .ca-auth-shell-register::before {
+    background:
+      linear-gradient(180deg, rgba(9, 3, 38, 0.72), rgba(12, 4, 45, 0.88)),
+      url("/images/registration-static-bg.jpg") 39% center / cover no-repeat;
+  }
+  .ca-auth-main-register { width: calc(100% - 28px); padding-top: 22px; gap: 18px; }
+  .ca-auth-main-register .ca-auth-feature-list { grid-template-columns: 1fr; gap: 11px; }
+  .ca-auth-main-register .ca-auth-feature-item { align-items: center; }
+  .ca-auth-main-register .ca-auth-feature-copy strong { font-size: 12px; }
+  .ca-auth-main-register .ca-auth-feature-copy small { font-size: 10px; }
+  .ca-auth-main-register .ca-auth-learning-ribbon {
+    margin-top: 17px;
+    padding: 9px 12px;
+    font-size: 10px;
+  }
+  .ca-auth-main-register .ca-register-card { width: 100%; }
+}
+/* ==========================================================
+   COMPACT REGISTRATION — fit the complete form in one desktop view
+   Keeps the existing Poppins typography, colors and glass styling.
+   Shorter viewports retain natural scrolling for usability.
+   ========================================================== */
+
+@media (min-width: 1100px) and (min-height: 760px) {
+  .ca-auth-shell-register .ca-auth-navbar {
+    height: 68px;
+  }
+
+  .ca-auth-shell-register .ca-auth-navbar-inner {
+    width: min(calc(100% - 56px), 1530px);
+  }
+
+  .ca-auth-shell-register .ca-auth-brand-logo {
+    max-height: 52px;
+  }
+
+  .ca-auth-shell-register .ca-auth-nav-login,
+  .ca-auth-shell-register .ca-auth-nav-register {
+    height: 38px;
+    min-width: 100px;
+    font-size: 13px;
+  }
+
+  .ca-auth-main-register {
+    min-height: calc(100svh - 68px);
+    grid-template-columns: minmax(0, 1fr) minmax(510px, 0.98fr);
+    align-items: center;
+    gap: clamp(22px, 2.3vw, 38px);
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .ca-auth-main-register .ca-auth-intro-stage {
+    position: relative;
+    top: auto;
+    align-self: center;
+  }
+
+  .ca-auth-main-register .ca-auth-form-stage {
+    align-items: center;
+  }
+
+  .ca-auth-main-register .ca-register-card {
+    width: min(100%, 650px);
+    padding: 13px 18px 12px;
+    border-radius: 25px;
+  }
+
+  .ca-auth-main-register .ca-register-card-heading {
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .ca-auth-main-register .ca-register-heading-icon {
+    width: 39px;
+    height: 39px;
+    flex-basis: 39px;
+    border-radius: 12px;
+  }
+
+  .ca-auth-main-register .ca-register-card-heading h2 {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .ca-auth-main-register .ca-register-card-heading p {
+    margin-top: 2px;
+    font-size: 10px;
+  }
+
+  .ca-auth-main-register .ca-register-form {
+    row-gap: 6px;
+    column-gap: 11px;
+  }
+
+  .ca-auth-main-register .ca-register-section-title {
+    font-size: 11px;
+    margin-bottom: 0;
+  }
+
+  .ca-auth-main-register .ca-register-label {
+    margin-bottom: 3px;
+    font-size: 10px;
+    line-height: 1.2;
+  }
+
+  .ca-auth-main-register .ca-register-input-wrap {
+    min-height: 35px;
+    gap: 7px;
+    padding: 0 9px;
+    border-radius: 9px;
+  }
+
+  .ca-auth-main-register .ca-register-input-wrap > svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .ca-auth-main-register .ca-register-input-wrap input,
+  .ca-auth-main-register .ca-register-input-wrap select {
+    height: 33px;
+    font-size: 11px;
+  }
+
+  .ca-auth-main-register .ca-register-password-toggle {
+    width: 24px;
+    height: 26px;
+  }
+
+  .ca-auth-main-register .ca-register-academic-toggle {
+    min-height: 35px;
+    margin-top: 1px;
+    padding: 0 10px;
+    border-radius: 9px;
+    font-size: 10px;
+  }
+
+  .ca-auth-main-register .ca-register-academic-toggle > svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .ca-auth-main-register .ca-register-academic-grid {
+    gap: 6px 11px;
+  }
+
+  .ca-auth-main-register .ca-register-academic-note {
+    padding: 5px 8px;
+    font-size: 9px;
+    line-height: 1.35;
+  }
+
+  .ca-auth-main-register .ca-register-terms-row {
+    align-items: center;
+    margin-top: 0;
+    font-size: 9px;
+    line-height: 1.3;
+  }
+
+  .ca-auth-main-register .ca-register-terms-box {
+    width: 14px;
+    height: 14px;
+  }
+
+  .ca-auth-main-register .ca-register-terms-check {
+    flex-basis: 14px;
+  }
+
+  .ca-auth-main-register .ca-register-submit {
+    min-height: 39px;
+    margin-top: 0;
+    font-size: 12px;
+  }
+
+  .ca-auth-main-register .ca-register-divider {
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+
+  .ca-auth-main-register .ca-auth-google-button {
+    min-height: 37px;
+    font-size: 12px;
+  }
+
+  .ca-auth-main-register .ca-auth-card-footer {
+    min-height: 34px;
+    margin-top: 7px;
+    padding: 6px 9px;
+    font-size: 10px;
+  }
+
+  .ca-auth-main-register .ca-register-independent-note {
+    margin-top: 6px;
+    font-size: 9px;
+    line-height: 1.3;
+  }
+}
+
+/* At shorter laptop heights, preserve comfortable controls and allow page scroll. */
+@media (min-width: 1100px) and (max-height: 759px) {
+  .ca-auth-main-register {
+    padding-top: 14px;
+    padding-bottom: 24px;
+  }
+
+  .ca-auth-main-register .ca-register-card {
+    padding: 14px 17px;
+  }
 }

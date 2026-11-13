@@ -1,5 +1,6 @@
+import ArenaNavbar from "../common/ArenaNavbar.jsx";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useNavigate } from "react-router-dom";
+
 import {
   Award,
   BookOpenCheck,
@@ -75,7 +76,7 @@ export default function AuthLayout({
   role = "student",
   page = "login",
 }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const reduceMotion = useReducedMotion();
   const isAdmin = role === "admin";
   const isRegistration = page === "register";
@@ -99,56 +100,8 @@ export default function AuthLayout({
 
   return (
     <div className={`ca-auth-shell ${isRegistration ? "ca-auth-shell-register" : ""}`}>
-      <header className="ca-auth-navbar">
-        <div className="ca-auth-navbar-inner">
-          <button
-            type="button"
-            className="ca-auth-brand"
-            onClick={() => navigate("/")}
-            aria-label="Champion Arena home"
-          >
-            <img
-              src="/images/champion-arena-logo.png"
-              alt="Champion Arena"
-              className="ca-auth-brand-logo"
-            />
-          </button>
-
-          <span className="ca-auth-navbar-divider" aria-hidden="true" />
-
-          <nav className="ca-auth-nav" aria-label="Main navigation">
-            {NAV_ITEMS.map(({ label, to, icon: Icon }) => (
-              <button
-                key={label}
-                type="button"
-                className="ca-auth-nav-link"
-                onClick={() => navigate(to)}
-              >
-                <Icon size={17} strokeWidth={2.1} aria-hidden="true" />
-                <span>{label}</span>
-              </button>
-            ))}
-          </nav>
-
-          <div className="ca-auth-nav-actions">
-            <button
-              type="button"
-              className={`ca-auth-nav-login ${!isRegistration ? "is-current" : ""}`}
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </button>
-            <button
-              type="button"
-              className={`ca-auth-nav-register ${isRegistration ? "is-current" : ""}`}
-              onClick={() => navigate("/register")}
-            >
-              Register
-            </button>
-          </div>
-        </div>
-      </header>
-
+      
+    <ArenaNavbar />
       <main className={`ca-auth-main ${isRegistration ? "ca-auth-main-register" : ""}`}>
         <section className="ca-auth-intro-stage" aria-label="Champion Arena introduction">
           <AnimatePresence initial={false} mode="wait">
@@ -243,31 +196,24 @@ export default function AuthLayout({
             </motion.div>
           </AnimatePresence>
 
-          <div
-  className={`ca-auth-hero-art ${isAdmin ? "admin-art" : "student-art"}`}
->
-  <span className="ca-auth-art-halo" />
-
-  <img
-    src={
-      isAdmin
-        ? "/images/champion-admin-hero.png"
-        : "/images/champion-student-hero.png"
-    }
-    alt={
-      isAdmin
-        ? "Administrator managing exams and performance"
-        : "Students learning together on a laptop"
-    }
-    draggable="false"
-  />
-
-  {!isAdmin && (
-    <span className="ca-auth-art-sparkle" aria-hidden="true">
-      ✦
-    </span>
-  )}
-</div>
+          <motion.div
+            className={`ca-auth-hero-art ${isAdmin ? "admin-art" : "student-art"}`}
+            key={`art-${role}-${page}`}
+            initial={{ opacity: 0, y: reduceMotion ? 0 : 15, scale: 0.985 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{
+              duration: reduceMotion ? 0.01 : 0.65,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <span className="ca-auth-art-halo" />
+            <img
+              src={isAdmin ? "/images/champion-admin-hero.png" : "/images/champion-student-hero.png"}
+              alt={isAdmin ? "Administrator managing exams and performance" : "Students learning together on a laptop"}
+              draggable="false"
+            />
+            {!isAdmin && <span className="ca-auth-art-sparkle" aria-hidden="true">✦</span>}
+          </motion.div>
         </section>
 
         <section className="ca-auth-form-stage" aria-label={isRegistration ? "Student registration" : "Account login"}>
@@ -277,5 +223,3 @@ export default function AuthLayout({
     </div>
   );
 }
-
-

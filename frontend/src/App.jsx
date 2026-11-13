@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import {
   BrowserRouter,
   Navigate,
@@ -6,9 +6,9 @@ import {
   Routes,
   Link,
 } from "react-router-dom";
-
+import HomePage from "./pages/public/HomePage";
 import Login from "./components/auth/Login";
-import RegistrationPage from "./pages/auth/RegistrationPage";
+import Registration from "./components/auth/Registration";
 import StudentDashboard from "./pages/student/StudentDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import { fetchCurrentUser } from "./services/sessionApi";
@@ -85,9 +85,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<RegistrationPage />} />
+       <Route path="/register" element={<Registration />} />
 
         <Route path="/student/*" element={<StudentDashboard />} />
 

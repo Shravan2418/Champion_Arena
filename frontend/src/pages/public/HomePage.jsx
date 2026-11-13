@@ -1,9 +1,10 @@
 
-import React, { useEffect, useRef, useState } from "react";
+import ArenaNavbar from "../../components/common/ArenaNavbar.jsx";
+import React, { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, useReducedMotion } from "motion/react";
 import gsap from "gsap";
-
+import "../../components/auth/Registration.css";
 import {
   Home,
   Target,
@@ -34,15 +35,7 @@ import "../../styles/home.css";
 
 const logo = "/images/champion-arena-logo.png";
 
-// Main navigation
-const navItems = [
-  { label: "Home", href: "#home", icon: Home, active: true },
-  { label: "Practice", href: "#features", icon: Target },
-  { label: "Exams", href: "#journey", icon: FileText },
-  { label: "Leaderboard", href: "#rewards", icon: Trophy },
-  { label: "Achievements", href: "#achievements", icon: Star },
-  { label: "About", href: "#about", icon: Info },
-];
+
 
 // Homepage features
 const features = [
@@ -150,101 +143,6 @@ function SectionHeading({
   );
 }
 
-// Navigation bar
-function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate();
-
-  const closeMenu = () => setMenuOpen(false);
-
-  return (
-    <header className="arena-navbar">
-      <div className="arena-nav-inner">
-
-        <Link
-          to="/"
-          className="arena-brand"
-          aria-label="Champion Arena home"
-          onClick={closeMenu}
-        >
-          <img
-            src={logo}
-            alt="Champion Arena"
-          />
-        </Link>
-
-        <span
-          className="nav-divider"
-          aria-hidden="true"
-        />
-
-        <button
-          className="mobile-menu-toggle"
-          type="button"
-          onClick={() =>
-            setMenuOpen((open) => !open)
-          }
-          aria-label={
-            menuOpen
-              ? "Close navigation"
-              : "Open navigation"
-          }
-          aria-expanded={menuOpen}
-        >
-          {menuOpen ? (
-            <X size={23} />
-          ) : (
-            <Menu size={23} />
-          )}
-        </button>
-
-        <nav
-          className={`arena-nav-links ${
-            menuOpen ? "is-open" : ""
-          }`}
-          aria-label="Main navigation"
-        >
-          {navItems.map(
-            ({ label, href, icon: Icon, active }) => (
-              <a
-                key={label}
-                href={href}
-                className={`arena-nav-link ${
-                  active ? "is-active" : ""
-                }`}
-                onClick={closeMenu}
-              >
-                <Icon
-                  size={17}
-                  strokeWidth={2.2}
-                />
-
-                <span>{label}</span>
-              </a>
-            )
-          )}
-        </nav>
-
-        <div className="arena-nav-actions">
-          <button
-            className="arena-login-btn"
-            onClick={() => navigate("/login")}
-          >
-            Login
-          </button>
-
-          <button
-            className="arena-join-btn"
-            onClick={() => navigate("/register")}
-          >
-            Join the Arena
-          </button>
-        </div>
-
-      </div>
-    </header>
-  );
-}
 
 // Hero section
 function HeroSection() {
@@ -913,7 +811,9 @@ export default function HomePage() {
   return (
     <div className="home-page">
 
-      <Navbar />
+   <ArenaNavbar />
+
+  
 
       <HeroSection />
 

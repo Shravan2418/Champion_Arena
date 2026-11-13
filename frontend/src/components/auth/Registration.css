@@ -290,784 +290,313 @@
   .ca-register-terms-row { font-size: 8px; }
 }
 
-
-
-/* =========================================
-   CHAMPION ARENA - REGISTRATION PAGE
-   Theme: Navy / Purple / Violet Glow
-========================================= */
-
-.registration-shell {
-  --reg-bg: #08091e;
-  --reg-panel: rgba(18, 20, 49, 0.88);
-  --reg-purple: #8b5cf6;
-  --reg-violet: #a78bfa;
-  --reg-gold: #f5c45e;
-  --reg-text: #f7f5ff;
-  --reg-muted: #aaa9c7;
-
-  min-height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  color: var(--reg-text);
-  background:
-    radial-gradient(ellipse at 18% 42%, rgba(85, 45, 180, 0.30), transparent 38%),
-    radial-gradient(ellipse at 82% 20%, rgba(91, 55, 190, 0.23), transparent 35%),
-    linear-gradient(135deg, #08091e 0%, #11102f 48%, #08091e 100%);
-  position: relative;
-}
-
-/* Background light effects */
-.registration-shell::before,
-.registration-shell::after {
-  content: "";
-  position: fixed;
-  pointer-events: none;
-  border-radius: 50%;
-  filter: blur(90px);
-  z-index: 0;
-}
-
-.registration-shell::before {
-  width: 360px;
-  height: 360px;
-  background: rgba(111, 54, 220, 0.18);
-  top: 20%;
-  left: -150px;
-}
-
-.registration-shell::after {
-  width: 420px;
-  height: 420px;
-  background: rgba(64, 85, 220, 0.13);
-  right: -180px;
-  bottom: -120px;
-}
-
-/* Header */
-.registration-shell .site-header {
-  width: 100%;
-  min-height: 86px;
-  padding: 14px 6%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  z-index: 5;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  background: rgba(8, 9, 30, 0.55);
-  backdrop-filter: blur(16px);
-}
-
-.registration-shell .brand-home {
-  border: 0;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.registration-shell .brand-logo {
-  width: 190px;
-  max-height: 58px;
-  object-fit: contain;
-}
-
-.registration-shell .header-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.registration-shell .header-actions button {
-  border-radius: 10px;
-  padding: 11px 23px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.25s ease;
-}
-
-.registration-shell .header-login {
-  color: #e5e1ff;
-  border: 1px solid rgba(183, 160, 255, 0.3);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.registration-shell .header-login:hover {
-  background: rgba(139, 92, 246, 0.17);
-  border-color: var(--reg-violet);
-}
-
-.registration-shell .header-register {
-  color: #fff;
-  border: 1px solid transparent;
-  background: linear-gradient(110deg, #7044dc, #9b5cf6);
-  box-shadow: 0 5px 22px rgba(126, 78, 235, 0.3);
-}
-
-.registration-shell .header-register:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(126, 78, 235, 0.45);
-}
-
-/* Main layout */
-.registration-shell .login-hero {
-  min-height: calc(100vh - 86px);
-  width: 100%;
-  padding: 55px 6% 70px;
-  display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(480px, 1.08fr);
-  align-items: center;
-  gap: clamp(35px, 6vw, 100px);
-  position: relative;
-  isolation: isolate;
-}
-
-.registration-shell .hero-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.55;
-  background:
-    radial-gradient(ellipse at 48% 50%, rgba(115, 73, 230, 0.14), transparent 48%),
-    repeating-linear-gradient(
-      125deg,
-      transparent 0,
-      transparent 90px,
-      rgba(255, 255, 255, 0.012) 91px,
-      transparent 93px
-    );
-}
-
-.registration-shell .registration-hero {
-  align-items: start;
-}
-
-/* Left introduction */
-.registration-shell .registration-intro {
-  max-width: 590px;
-  padding: 25px 0;
-  position: relative;
-  z-index: 1;
-}
-
-.registration-shell .platform-badge {
-  width: fit-content;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 17px;
-  border: 1px solid rgba(172, 143, 255, 0.3);
-  border-radius: 30px;
-  color: #d8caff;
-  background: rgba(115, 74, 211, 0.13);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.6px;
-  box-shadow: 0 0 25px rgba(126, 78, 235, 0.09);
-}
-
-.registration-shell .gamepad-symbol {
-  color: var(--reg-gold);
-  font-size: 15px;
-}
-
-.registration-shell .registration-heading {
-  position: relative;
-  margin: 30px 0 22px;
-}
-
-.registration-shell .registration-heading h1 {
-  margin: 0;
-  color: #fff;
-  font-size: clamp(42px, 5vw, 68px);
-  line-height: 1.09;
-  font-weight: 850;
-  letter-spacing: -2.5px;
-}
-
-.registration-shell .registration-heading h1 > span {
-  display: block;
-}
-
-.registration-shell .registration-heading h1 > span:nth-child(2) {
-  color: #c6b2ff;
-  text-shadow: 0 0 28px rgba(151, 110, 255, 0.3);
-}
-
-.registration-shell .registration-heading h1 strong {
-  color: var(--reg-gold);
-}
-
-.registration-shell .heading-rays {
-  position: absolute;
-  top: -16px;
-  right: 12%;
-  color: var(--reg-gold);
-  font-size: 40px;
-  animation: reg-ray-pulse 3s ease-in-out infinite;
-}
-
-.registration-shell .heading-swoosh {
-  display: block;
-  width: 190px;
-  height: 5px;
-  margin-top: 18px;
-  border-radius: 50%;
-  background: linear-gradient(90deg, #8d5bfa, #f5c45e, transparent);
-  transform: rotate(-2deg);
-  box-shadow: 0 0 18px rgba(157, 109, 255, 0.5);
-}
-
-.registration-shell .intro-description {
-  color: #c1bfdc;
-  font-size: 17px;
-  line-height: 1.8;
-  margin: 0 0 34px;
-}
-
-/* Feature list */
-.registration-shell .feature-list {
-  display: grid;
-  gap: 19px;
-}
-
-.registration-shell .feature-item {
-  display: flex;
-  align-items: center;
-  gap: 17px;
-}
-
-.registration-shell .feature-icon {
-  width: 53px;
-  height: 53px;
-  flex: 0 0 53px;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(188, 163, 255, 0.24);
-  border-radius: 15px;
-  background: linear-gradient(145deg, rgba(133, 87, 236, 0.25), rgba(55, 45, 111, 0.3));
-  color: #c7b2ff;
-  box-shadow: inset 0 0 18px rgba(151, 111, 255, 0.08);
-}
-
-.registration-shell .feature-rocket {
-  color: #f3c76d;
-}
-
-.registration-shell .feature-chart {
-  color: #9bd8ff;
-}
-
-.registration-shell .feature-trophy {
-  color: #bca3ff;
-}
-
-.registration-shell .feature-copy h2 {
-  margin: 0 0 5px;
-  font-size: 16px;
-  color: #fff;
-  font-weight: 750;
-}
-
-.registration-shell .feature-copy p {
-  margin: 0;
-  color: #a8a6c7;
-  font-size: 13px;
-}
-
-.registration-shell .learning-ribbon {
-  margin-top: 35px;
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  color: #d4c6ff;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.registration-shell .learning-ribbon i {
-  color: var(--reg-gold);
-  font-style: normal;
-}
-
-/* Registration card */
-.registration-shell .registration-auth-area {
-  width: 100%;
-  min-width: 0;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
-}
-
-.registration-shell .registration-card {
-  width: 100%;
-  max-width: 690px;
-  padding: 32px;
-  border-radius: 23px;
-  border: 1px solid rgba(177, 151, 255, 0.23);
-  background:
-    linear-gradient(145deg, rgba(30, 27, 68, 0.96), rgba(14, 16, 42, 0.96));
-  box-shadow:
-    0 25px 75px rgba(0, 0, 0, 0.38),
-    0 0 50px rgba(109, 73, 206, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(24px);
-}
-
-.registration-shell .registration-card-heading {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.registration-shell .registration-heading-icon {
-  width: 54px;
-  height: 54px;
-  flex: 0 0 54px;
-  display: grid;
-  place-items: center;
-  border-radius: 16px;
-  color: #fff;
-  background: linear-gradient(135deg, #7045d5, #a56aff);
-  box-shadow: 0 7px 24px rgba(131, 84, 235, 0.32);
-}
-
-.registration-shell .registration-card-heading h2 {
-  margin: 0 0 6px;
-  color: #fff;
-  font-size: 21px;
-  font-weight: 800;
-}
-
-.registration-shell .registration-card-heading h2 span {
-  color: #c1a7ff;
-}
-
-.registration-shell .registration-card-heading p {
-  margin: 0;
-  color: #aaa8c8;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-/* Form grid */
-.registration-shell .registration-form {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 17px 15px;
-}
-
-.registration-shell .field-full {
-  grid-column: 1 / -1;
-}
-
-.registration-shell .register-field {
-  min-width: 0;
-}
-
-.registration-shell .register-field-label {
-  display: block;
-  margin-bottom: 8px;
-  color: #e6e1fa;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.registration-shell .required-star {
-  color: #ff8b9a;
-  margin-left: 2px;
-}
-
-.registration-shell .optional-label {
-  color: #8583a7;
-  font-size: 10px;
-  font-weight: 500;
-  margin-left: 4px;
-}
-
-.registration-shell .register-input-wrap {
-  width: 100%;
-  min-height: 49px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 13px;
-  border: 1px solid rgba(170, 157, 218, 0.2);
-  border-radius: 11px;
-  background: rgba(7, 9, 29, 0.54);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-
-.registration-shell .register-input-wrap:focus-within {
-  border-color: #9b78f5;
-  background: rgba(24, 19, 57, 0.85);
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.13);
-}
-
-.registration-shell .register-field-icon {
-  flex: 0 0 auto;
-  color: #9d88d9;
-}
-
-.registration-shell .register-input-wrap input,
-.registration-shell .register-input-wrap select {
-  width: 100%;
-  min-width: 0;
-  height: 47px;
-  padding: 0;
-  border: 0;
-  outline: none;
-  color: #f8f6ff;
-  background: transparent;
-  font-family: inherit;
-  font-size: 12px;
-}
-
-.registration-shell .register-input-wrap input::placeholder {
-  color: #777591;
-  opacity: 1;
-}
-
-.registration-shell .register-input-wrap select {
-  cursor: pointer;
-  color: #aaa8c8;
-}
-
-.registration-shell .register-input-wrap select:valid {
-  color: #f8f6ff;
-}
-
-.registration-shell .register-input-wrap select option {
-  color: #fff;
-  background: #171532;
-}
-
-.registration-shell .register-password-toggle {
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  border: 0;
-  padding: 5px;
-  color: #9992c1;
-  background: transparent;
-  cursor: pointer;
-}
-
-.registration-shell .register-password-toggle:hover {
-  color: #fff;
-}
-
-/* Submit button */
-.registration-shell .registration-submit {
-  min-height: 53px;
-  margin-top: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 11px;
-  border: 0;
-  border-radius: 12px;
-  color: #fff;
-  background: linear-gradient(105deg, #7045d7 0%, #9658f2 55%, #7651df 100%);
-  box-shadow: 0 8px 25px rgba(123, 76, 222, 0.3);
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.registration-shell .registration-submit:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(139, 92, 246, 0.43);
-}
-
-.registration-shell .registration-submit:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.registration-shell .loading-spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.35);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: reg-spin 0.7s linear infinite;
-}
-
-/* Notices */
-.registration-shell .form-notice {
-  display: flex;
-  align-items: flex-start;
-  gap: 9px;
-  padding: 11px 13px;
-  margin-bottom: 17px;
-  border-radius: 9px;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.registration-shell .form-notice.error {
-  color: #ffc2ca;
-  border: 1px solid rgba(255, 116, 135, 0.25);
-  background: rgba(180, 45, 70, 0.13);
-}
-
-.registration-shell .form-notice.success {
-  color: #a9f0c4;
-  border: 1px solid rgba(81, 205, 132, 0.25);
-  background: rgba(34, 145, 85, 0.13);
-}
-
-.registration-shell .form-notice.info {
-  color: #cbbaff;
-  border: 1px solid rgba(161, 126, 255, 0.25);
-  background: rgba(111, 73, 194, 0.14);
-}
-
-/* Google and login links */
-.registration-shell .registration-separator {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  margin: 22px 0 17px;
-}
-
-.registration-shell .registration-separator span {
-  height: 1px;
-  flex: 1;
-  background: rgba(190, 178, 229, 0.17);
-}
-
-.registration-shell .registration-separator p {
-  margin: 0;
-  color: #8886a8;
-  font-size: 11px;
-}
-
-.registration-shell .registration-google {
-  width: 100%;
-  min-height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 11px;
-  border: 1px solid rgba(180, 168, 220, 0.2);
-  border-radius: 10px;
-  color: #e9e6f8;
-  background: rgba(255, 255, 255, 0.045);
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.registration-shell .registration-google:hover {
-  border-color: rgba(184, 155, 255, 0.55);
-  background: rgba(139, 92, 246, 0.1);
-}
-
-.registration-shell .google-mark {
-  color: #fff;
-  font-size: 18px;
-  font-weight: 900;
-  text-shadow: 1px 1px #4285f4, -1px -1px #ea4335;
-}
-
-.registration-shell .registration-login-prompt {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 21px;
-  color: #a5a2c1;
-  font-size: 12px;
-}
-
-.registration-shell .registration-login-prompt button {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 0;
-  border: 0;
-  color: #c3a9ff;
-  background: transparent;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.registration-shell .registration-login-prompt button:hover {
-  color: #fff;
-}
-
-.registration-shell .frontend-note {
-  margin: 17px 0 0;
-  color: #777591;
-  font-size: 10px;
-  text-align: center;
-}
-
-/* Animations */
-@keyframes reg-spin {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes reg-ray-pulse {
-  0%, 100% { opacity: 0.55; transform: scale(0.92) rotate(0deg); }
-  50% { opacity: 1; transform: scale(1.08) rotate(15deg); }
-}
-
-/* Tablet */
-@media (max-width: 1050px) {
-  .registration-shell .login-hero {
-    grid-template-columns: minmax(0, 0.8fr) minmax(420px, 1.2fr);
-    gap: 35px;
-    padding-left: 4%;
-    padding-right: 4%;
+/* Registration form readability and spacing refinements */
+.ca-register-card {
+  border: 1px solid rgba(211, 167, 255, 0.9);
+}
+
+.ca-register-form { row-gap: 13px; }
+.ca-register-label { font-size: 11px; }
+.ca-register-input-wrap input,
+.ca-register-input-wrap select { font-size: 12px; }
+.ca-register-input-wrap { min-height: 45px; }
+.ca-register-input-wrap input,
+.ca-register-input-wrap select { height: 43px; }
+.ca-register-academic-note { font-size: 10px; }
+.ca-register-terms-row { font-size: 10px; }
+.ca-register-independent-note { font-size: 10px; }
+
+@media (max-width: 600px) {
+  .ca-register-form { row-gap: 10px; }
+  .ca-register-label { font-size: 10px; }
+  .ca-register-input-wrap input,
+  .ca-register-input-wrap select { font-size: 11px; }
+  .ca-register-terms-row { font-size: 9px; }
+}
+/* ==========================================================
+   COMPACT REGISTRATION — fit the complete form in one desktop view
+   Keeps the existing Poppins typography, colors and glass styling.
+   Shorter viewports retain natural scrolling for usability.
+   ========================================================== */
+
+@media (min-width: 1100px) and (min-height: 760px) {
+  .ca-auth-shell-register .ca-auth-navbar {
+    height: 68px;
   }
 
-  .registration-shell .registration-card {
-    padding: 25px;
+  .ca-auth-shell-register .ca-auth-navbar-inner {
+    width: min(calc(100% - 56px), 1530px);
   }
 
-  .registration-shell .registration-heading h1 {
-    font-size: clamp(38px, 5vw, 55px);
-  }
-}
-
-/* Mobile */
-@media (max-width: 760px) {
-  .registration-shell .site-header {
-    min-height: 70px;
-    padding: 10px 5%;
+  .ca-auth-shell-register .ca-auth-brand-logo {
+    max-height: 52px;
   }
 
-  .registration-shell .brand-logo {
-    width: 145px;
-    max-height: 48px;
+  .ca-auth-shell-register .ca-auth-nav-login,
+  .ca-auth-shell-register .ca-auth-nav-register {
+    height: 38px;
+    min-width: 100px;
+    font-size: 13px;
   }
 
-  .registration-shell .header-actions {
-    gap: 7px;
+  .ca-auth-main-register {
+    min-height: calc(100svh - 68px);
+    grid-template-columns: minmax(0, 1fr) minmax(510px, 0.98fr);
+    align-items: center;
+    gap: clamp(22px, 2.3vw, 38px);
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
-  .registration-shell .header-actions button {
-    padding: 9px 13px;
-    font-size: 12px;
+  .ca-auth-main-register .ca-auth-intro-stage {
+    position: relative;
+    top: auto;
+    align-self: center;
   }
 
-  .registration-shell .login-hero {
-    min-height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 25px;
-    padding: 35px 5% 45px;
+  .ca-auth-main-register .ca-auth-form-stage {
+    align-items: center;
   }
 
-  .registration-shell .registration-intro {
-    max-width: none;
-    padding: 5px 0 0;
+  .ca-auth-main-register .ca-register-card {
+    width: min(100%, 650px);
+    padding: 13px 18px 12px;
+    border-radius: 25px;
   }
 
-  .registration-shell .platform-badge {
-    font-size: 10px;
-    padding: 8px 12px;
+  .ca-auth-main-register .ca-register-card-heading {
+    gap: 10px;
+    margin-bottom: 8px;
   }
 
-  .registration-shell .registration-heading {
-    margin: 23px 0 16px;
+  .ca-auth-main-register .ca-register-heading-icon {
+    width: 39px;
+    height: 39px;
+    flex-basis: 39px;
+    border-radius: 12px;
   }
 
-  .registration-shell .registration-heading h1 {
-    font-size: clamp(39px, 10vw, 54px);
-    letter-spacing: -1.7px;
-  }
-
-  .registration-shell .heading-rays {
-    right: 8%;
-    font-size: 29px;
-  }
-
-  .registration-shell .intro-description {
-    font-size: 14px;
-    margin-bottom: 23px;
-  }
-
-  .registration-shell .feature-list {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-  .registration-shell .feature-icon {
-    width: 45px;
-    height: 45px;
-    flex-basis: 45px;
-  }
-
-  .registration-shell .feature-copy h2 {
-    font-size: 14px;
-  }
-
-  .registration-shell .feature-copy p {
-    font-size: 12px;
-  }
-
-  .registration-shell .learning-ribbon {
-    margin-top: 22px;
-    font-size: 11px;
-    gap: 9px;
-  }
-
-  .registration-shell .registration-card {
-    max-width: none;
-    padding: 22px 17px;
-    border-radius: 18px;
-  }
-
-  .registration-shell .registration-card-heading h2 {
+  .ca-auth-main-register .ca-register-card-heading h2 {
     font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .ca-auth-main-register .ca-register-card-heading p {
+    margin-top: 2px;
+    font-size: 10px;
+  }
+
+  .ca-auth-main-register .ca-register-form {
+    row-gap: 6px;
+    column-gap: 11px;
+  }
+
+  .ca-auth-main-register .ca-register-section-title {
+    font-size: 11px;
+    margin-bottom: 0;
+  }
+
+  .ca-auth-main-register .ca-register-label {
+    margin-bottom: 3px;
+    font-size: 10px;
+    line-height: 1.2;
+  }
+
+  .ca-auth-main-register .ca-register-input-wrap {
+    min-height: 35px;
+    gap: 7px;
+    padding: 0 9px;
+    border-radius: 9px;
+  }
+
+  .ca-auth-main-register .ca-register-input-wrap > svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .ca-auth-main-register .ca-register-input-wrap input,
+  .ca-auth-main-register .ca-register-input-wrap select {
+    height: 33px;
+    font-size: 11px;
+  }
+
+  .ca-auth-main-register .ca-register-password-toggle {
+    width: 24px;
+    height: 26px;
+  }
+
+  .ca-auth-main-register .ca-register-academic-toggle {
+    min-height: 35px;
+    margin-top: 1px;
+    padding: 0 10px;
+    border-radius: 9px;
+    font-size: 10px;
+  }
+
+  .ca-auth-main-register .ca-register-academic-toggle > svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .ca-auth-main-register .ca-register-academic-grid {
+    gap: 6px 11px;
+  }
+
+  .ca-auth-main-register .ca-register-academic-note {
+    padding: 5px 8px;
+    font-size: 9px;
+    line-height: 1.35;
+  }
+
+  .ca-auth-main-register .ca-register-terms-row {
+    align-items: center;
+    margin-top: 0;
+    font-size: 9px;
+    line-height: 1.3;
+  }
+
+  .ca-auth-main-register .ca-register-terms-box {
+    width: 14px;
+    height: 14px;
+  }
+
+  .ca-auth-main-register .ca-register-terms-check {
+    flex-basis: 14px;
+  }
+
+  .ca-auth-main-register .ca-register-submit {
+    min-height: 39px;
+    margin-top: 0;
+    font-size: 12px;
+  }
+
+  .ca-auth-main-register .ca-register-divider {
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+
+  .ca-auth-main-register .ca-auth-google-button {
+    min-height: 37px;
+    font-size: 12px;
+  }
+
+  .ca-auth-main-register .ca-auth-card-footer {
+    min-height: 34px;
+    margin-top: 7px;
+    padding: 6px 9px;
+    font-size: 10px;
+  }
+
+  .ca-auth-main-register .ca-register-independent-note {
+    margin-top: 6px;
+    font-size: 9px;
+    line-height: 1.3;
   }
 }
 
-/* Small phones */
-@media (max-width: 430px) {
-  .registration-shell .registration-form {
-    grid-template-columns: 1fr;
-    gap: 14px;
+/* At shorter laptop heights, preserve comfortable controls and allow page scroll. */
+@media (min-width: 1100px) and (max-height: 759px) {
+  .ca-auth-main-register {
+    padding-top: 14px;
+    padding-bottom: 24px;
   }
 
-  .registration-shell .field-full {
-    grid-column: auto;
-  }
-
-  .registration-shell .registration-card {
-    padding: 20px 15px;
-  }
-
-  .registration-shell .registration-card-heading {
-    gap: 11px;
-  }
-
-  .registration-shell .registration-heading-icon {
-    width: 46px;
-    height: 46px;
-    flex-basis: 46px;
-  }
-
-  .registration-shell .register-input-wrap {
-    min-height: 47px;
+  .ca-auth-main-register .ca-register-card {
+    padding: 14px 17px;
   }
 }
+/* Remove unwanted yellow focus outlines from registration fields */
+.ca-register-input-wrap {
+  outline: none !important;
+  box-shadow: none;
+}
+
+.ca-register-input-wrap:focus-within {
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(190, 100, 255, 0.28) !important;
+  border-color: #bd75ff !important;
+}
+
+.ca-register-input-wrap input,
+.ca-register-input-wrap select,
+.ca-register-input-wrap textarea {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.ca-register-input-wrap input:focus,
+.ca-register-input-wrap select:focus,
+.ca-register-input-wrap textarea:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove yellow browser autofill styling */
+.ca-register-input-wrap input:-webkit-autofill,
+.ca-register-input-wrap input:-webkit-autofill:hover,
+.ca-register-input-wrap input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff;
+  transition: background-color 99999s ease-in-out 0s;
+}
+
+/* Improve registration form readability */
+.ca-register-card {
+  font-size: 13px;
+}
+
+.ca-register-card .ca-register-card-heading h2 {
+  font-size: clamp(17px, 1.35vw, 21px);
+  line-height: 1.35;
+}
+
+.ca-register-card .ca-register-card-heading p {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.ca-register-card .ca-register-label {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.ca-register-card .ca-register-input-wrap input,
+.ca-register-card .ca-register-input-wrap select {
+  font-size: 13px;
+}
+
+.ca-register-card .ca-register-input-wrap input::placeholder {
+  font-size: 12px;
+}
+
+.ca-register-card .ca-register-section-title {
+  font-size: 13px;
+}
+
+.ca-register-card .ca-register-academic-toggle {
+  font-size: 13px;
+}
+
+.ca-register-card .ca-register-academic-note {
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.ca-register-card .ca-register-terms-row {
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.ca-register-card .ca-register-submit,
+.ca-register-card .ca-auth-google-button {
+  font-size: 13px;
+}
+
+.ca-register-card .ca-auth-card-footer {
+  font-size: 12px;
+}
+
+.ca-register-card .ca-register-independent-note {
+  font-size: 10px;
+  line-height: 1.5;
+}
+

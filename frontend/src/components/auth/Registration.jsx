@@ -1,4 +1,3 @@
-import "./Registration.css";
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +20,7 @@ import {
   UserPlus,
 } from "lucide-react";
 import AuthLayout from "./AuthLayout";
-
+import "./Registration.css";
 
 const API_BASE_URL = (
   import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api"
@@ -101,7 +100,7 @@ export default function Registration() {
   const [values, setValues] = useState(INITIAL_VALUES);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [academicOpen, setAcademicOpen] = useState(true);
+const [academicOpen, setAcademicOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState(null);
 
